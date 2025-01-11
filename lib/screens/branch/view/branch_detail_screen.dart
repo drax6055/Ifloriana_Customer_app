@@ -145,7 +145,7 @@ class _BranchDetailScreenState extends State<BranchDetailScreen> with TickerProv
                               return Tab(
                                 child: Container(
                                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-                                  margin: EdgeInsets.only(left: index == 0 ? 16 : 0, right: 16),
+                                  margin: EdgeInsets.only(right: 16),
                                   decoration: boxDecorationWithRoundedCorners(
                                     backgroundColor: index == selectedIndex ? secondaryColor : context.cardColor,
                                   ),

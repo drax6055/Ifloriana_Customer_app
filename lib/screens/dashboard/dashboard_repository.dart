@@ -7,9 +7,9 @@ import '../../network/network_utils.dart';
 import '../../utils/api_end_points.dart';
 import 'models/dashboard_model.dart';
 
-Future<DashboardResponse> userDashboard({required int branchId}) async {
+Future<DashboardResponse> userDashboard({required int branchId,required int perPage}) async {
   /// If any below condition not satisfied, call this
-  String endPoint = '${APIEndPoints.dashboardDetail}?branch_id=$branchId';
+  String endPoint = '${APIEndPoints.dashboardDetail}?branch_id=$branchId&&per_page=$perPage';
 
   try {
     dashboardResponseCached = DashboardResponse.fromJson(await handleResponse(await buildHttpResponse(endPoint, method: HttpMethodType.GET)));

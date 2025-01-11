@@ -215,7 +215,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         return Future(() => false);
                       },
                     ),
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: context.cardColor),
+                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
                   ).scale(scale: 0.86),
                 ),
                 Positioned(

@@ -22,13 +22,13 @@ class PackageBottomSheetComponent extends StatefulWidget {
 class _PackageBottomSheetComponentState extends State<PackageBottomSheetComponent> {
   @override
   Widget build(BuildContext context) {
+    log('PackageBottomSheetComponent: isPurchased = ${widget.isPurchased}');
     return SingleChildScrollView(
       controller: widget.scrollController,
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
         decoration: BoxDecoration(color: context.cardColor),
         child: AnimatedScrollView(
-          mainAxisSize: MainAxisSize.max,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -17,7 +17,7 @@ class GenderSelectionComponent extends StatefulWidget {
 }
 
 class _GenderSelectionComponentState extends State<GenderSelectionComponent> {
-  int selectedGender = 0;
+  int selectedGender = -1;
   bool isUpdate = false;
 
   List<GenderModel> genderList = [
@@ -83,9 +83,12 @@ class _GenderSelectionComponentState extends State<GenderSelectionComponent> {
                     ],
                   ).center(),
                 ).onTap(() {
-                  // set the gender field as required field
-                  widget.onTap.call(genderList[index].value.validate());
-                  selectedGender = index;
+                  if (isSelected) {
+                    selectedGender = -1;
+                  } else {
+                    widget.onTap.call(genderList[index].value.validate());
+                    selectedGender = index;
+                  }
                   setState(() {});
                 }, borderRadius: BorderRadius.circular(defaultRadius)).paddingRight(16);
               },

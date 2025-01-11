@@ -23,8 +23,6 @@ class HorizontalDatePickerWidget extends StatefulWidget {
 
   final String locale;
 
-
-
   ///each date item width
   ///if the width is not able to fill the widget's width,
   ///padding will auto append to each item evenly

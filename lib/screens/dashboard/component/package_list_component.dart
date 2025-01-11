@@ -23,6 +23,7 @@ class PackageListComponent extends StatefulWidget {
 
 class _PackageListComponentState extends State<PackageListComponent> {
   List<PackageListData> filteredPackagesList = [];
+
   @override
   void initState() {
     super.initState();
@@ -54,32 +55,30 @@ class _PackageListComponentState extends State<PackageListComponent> {
                     isScrollControlled: true,
                     isDismissible: true,
                     context: context,
-                    builder: (context) {
-                      final itemCount = data.userPackage.length;
-                      final maxItemsToShow = 10;
-                      final childSize = itemCount <= maxItemsToShow
-                          ? (0.3 + (itemCount * 0.1)) 
-                          : 0.88;
-                          return SingleChildScrollView(
-                            child: PackageBottomSheetComponent(
-                              // scrollController: scrollController,
-                              package: data,
-                              isPurchased: data.userPackage.isNotEmpty,
-                              onPurchase: () {
-                                finish(context);
-                                bookingRequestStore.selectedPackageList.clear();
-                                bookingRequestStore.selectedPackageList.add(data);
-                                bookingRequestStore.setPackagePurchase(true);
-                                BookingScreen(services: [], packages: bookingRequestStore.selectedPackageList, isPackagePurchase: true).launch(context).then((value) => setState(() {}));
-                              },
-                            ),
-                          );
-                    },
+                    builder: (context) => DraggableScrollableSheet(
+                      initialChildSize: 0.6,
+                      maxChildSize: 0.88,
+                      minChildSize: 0.3,
+                      expand: false,
+                      builder: (context, scrollController) {
+                        return PackageBottomSheetComponent(
+                          scrollController: scrollController,
+                          package: data,
+                          isPurchased: data.userPackage.isNotEmpty,
+                          onPurchase: () {
+                            finish(context);
+                            bookingRequestStore.selectedPackageList.clear();
+                            bookingRequestStore.selectedPackageList.add(data);
+                            bookingRequestStore.setPackagePurchase(true);
+                            BookingScreen(services: [], packages: bookingRequestStore.selectedPackageList, isPackagePurchase: true).launch(context).then((value) => setState(() {}));
+                          },
+                        );
+                      },
+                    ),
                   );
                 },
                 child: Container(
                   width: 180,
-                  padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: index.isEven ? quaternaryButtonColor : context.cardColor,
                     borderRadius: BorderRadius.circular(defaultRadius),
@@ -87,17 +86,41 @@ class _PackageListComponentState extends State<PackageListComponent> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CachedImageWidget(
-                        url: ic_card_off,
-                        height: 32,
-                        width: 32,
-                        fit: BoxFit.cover,
-                        color: index.isEven
-                            ? secondaryColor
-                            : appStore.isDarkMode
-                                ? white
-                                : black,
-                      ).paddingBottom(16),
+                      Stack(
+                        clipBehavior: Clip.none,
+                        // Ensures the overlay can extend beyond the boundaries
+                        children: [
+                          CachedImageWidget(
+                            url: data.packageImage.toString(),
+                            width: context.width(),
+                            height: 100,
+                            fit: BoxFit.cover,
+                            radius: 12.0,
+                          ).paddingOnly(top: 5, bottom: 12, left: 5, right: 5),
+                          Positioned(
+                            bottom: 0,
+                            right: 10,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                              decoration: BoxDecoration(
+                                color: context.cardColor,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: PriceWidget(
+                                price: data.packagePrice.validate(),
+                                size: 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       Marquee(
                           child: Text(
                         data.name.validate(),
@@ -107,12 +130,24 @@ class _PackageListComponentState extends State<PackageListComponent> {
                                 : appStore.isDarkMode
                                     ? white
                                     : black),
-                      )).paddingBottom(8),
-                      PriceWidget(
-                        price: data.packagePrice.validate(),
-                        size: 16,
-                      ).paddingBottom(12),
-                      Text(locale.explore, style: primaryTextStyle(color: context.primaryColor)).onTap(() {})
+                      )).paddingOnly(right: 16, left: 16, bottom: 8,top: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(locale.explore, style: primaryTextStyle(color: context.primaryColor)).onTap(() {}).paddingOnly(right: 16, left: 16, bottom: 12),
+                          CachedImageWidget(
+                            url: ic_card_off,
+                            height: 22,
+                            width: 22,
+                            fit: BoxFit.cover,
+                            color: index.isEven
+                                ? secondaryColor
+                                : appStore.isDarkMode
+                                    ? white
+                                    : black,
+                          ).paddingOnly(right: 16, left: 16, bottom: 16),
+                        ],
+                      ),
                     ],
                   ),
                 ),

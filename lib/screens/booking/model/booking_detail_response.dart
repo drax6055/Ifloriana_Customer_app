@@ -41,7 +41,7 @@ class Payment {
   int? paymentStatus;
   String? requestToken;
   List<TaxPercentage>? taxPercentage;
-  num? tipAmount;
+  double? tipAmount;
   String? transactionType;
   String? updatedAt;
   int? updatedBy;
@@ -85,7 +85,8 @@ class Payment {
       paymentStatus: json['payment_status'],
       requestToken: json['request_token'] != null ? json['request_token'] : null,
       taxPercentage: json['tax_percentage'] != null ? (json['tax_percentage'] as List).map((i) => TaxPercentage.fromJson(i)).toList() : null,
-      tipAmount: json['tip_amount'],
+      //tipAmount: json['tip_amount'],
+      tipAmount: (json['tip_amount']!= null) ? (json['tip_amount']as num).toDouble() : null,
       transactionType: json['transaction_type'],
       updatedAt: json['updated_at'],
       updatedBy: json['updated_by'] != null ? json['updated_by'] : null,

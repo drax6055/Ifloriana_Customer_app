@@ -60,12 +60,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     genderCont.text = userStore.gender.validate();
     genderKey = UniqueKey();
 
-    String countryCode = userStore.userContactNumber.validate().splitBefore('-').replaceAll('+', '');
+    /*String countryCode = userStore.userContactNumber.validate().splitBefore('-').replaceAll('+', '');
     try {
       selectedCountry = CountryParser.parsePhoneCode(countryCode);
     } on Exception catch (e) {
       log(e);
-    }
+    }*/
   }
 
   Future<void> update() async {
@@ -75,7 +75,6 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     updateProfile(
       firstName: fNameCont.text,
       lastName: lNameCont.text,
-      email: emailCont.text,
       mobile: mobileCont.text,
       gender: genderCont.text,
       imageFile: imageFile,
@@ -224,7 +223,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                               highlightColor: Colors.transparent,
                               splashColor: Colors.transparent,
                             ),
-                          ).visible(true)
+                          ).visible(!isLoginTypeGoogle && !isLoginTypeApple)
                         ],
                       ),
                     ),
@@ -234,8 +233,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                       controller: fNameCont,
                       focus: fNameFocus,
                       nextFocus: lNameFocus,
-                      enabled: true,
-                      // textStyle: isSocialLoginType ? secondaryTextStyle() : primaryTextStyle(),
+                      enabled: !isSocialLoginType,
+                      textStyle: isSocialLoginType ? secondaryTextStyle() : primaryTextStyle(),
                       decoration: inputDecoration(context, label: locale.firstName),
                     ),
                     16.height,
@@ -244,9 +243,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                       controller: lNameCont,
                       focus: lNameFocus,
                       nextFocus: emailFocus,
-                      enabled: true,
-                      // textStyle: isSocialLoginType ? secondaryTextStyle() : primaryTextStyle(),
-
+                      enabled: !isSocialLoginType,
+                      textStyle: isSocialLoginType ? secondaryTextStyle() : primaryTextStyle(),
                       decoration: inputDecoration(context, label: locale.lastName),
                     ),
                     16.height,
@@ -255,8 +253,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                       controller: emailCont,
                       focus: emailFocus,
                       nextFocus: mobileFocus,
-                      enabled: true,
-                      // textStyle: secondaryTextStyle(),
+                      enabled: false,
+                      textStyle: secondaryTextStyle(),
                       decoration: inputDecoration(context, label: locale.email),
                     ),
                     16.height,
@@ -268,40 +266,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                       },
                     ),
                     16.height,
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: changeCountry, // Function to change country
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: primaryColor),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  '+${selectedCountry.phoneCode}', // Display selected country code
-                                  style: primaryTextStyle(),
-                                ),
-                                8.width,
-                                Icon(Icons.arrow_drop_down, color: Colors.grey),
-                              ],
-                            ),
-                          ),
-                        ),
-                        10.width,
-                        Expanded(
-                          child: AppTextField(
-                            textFieldType: TextFieldType.PHONE,
-                            controller: mobileCont,
-                            enabled: true,
-                            focus: mobileFocus,
-                            errorThisFieldRequired: locale.thisFieldIsRequired,
-                            decoration: inputDecoration(context, label: locale.contactNumber),
-                          ),
-                        ),
-                      ],
+                    AppTextField(
+                      textFieldType: TextFieldType.PHONE,
+                      controller: mobileCont,
+                      focus: mobileFocus,
+                      errorThisFieldRequired: locale.thisFieldIsRequired,
+                      decoration: inputDecoration(context, label: locale.contactNumber),
                     ),
                     16.height,
                     AppButton(

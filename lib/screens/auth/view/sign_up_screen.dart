@@ -1,4 +1,3 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ifloriana/main.dart';
@@ -9,7 +8,6 @@ import 'package:ifloriana/utils/images.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../components/app_scaffold.dart';
-import '../../../configs.dart';
 import '../../../utils/colors.dart';
 import '../component/gender_selection_component.dart';
 import '../model/user_data_model.dart';
@@ -35,28 +33,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController passwordCont = TextEditingController();
   TextEditingController mobileCont = TextEditingController();
 
-  String? genderValue = GenderConst.MALE;
-  Country selectedCountry = defaultCountry();
-  ValueNotifier _valueNotifier = ValueNotifier(true);
+  String? genderValue;
 
   FocusNode firstNameFocus = FocusNode();
   FocusNode lastNameFocus = FocusNode();
   FocusNode emailFocus = FocusNode();
   FocusNode mobileFocus = FocusNode();
   FocusNode passwordFocus = FocusNode();
-
-  Future<void> changeCountry() async {
-    showCountryPicker(
-      context: context,
-      countryListTheme: CountryListThemeData(textStyle: secondaryTextStyle(color: textSecondaryColorGlobal)),
-      showPhoneCode: true,
-      onSelect: (Country country) {
-        selectedCountry = country;
-        setState(() {});
-      },
-    );
-
-  }
 
   @override
   void initState() {
@@ -212,27 +195,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               readOnly: widget.isOTPLogin.validate() ? widget.isOTPLogin : false,
                               decoration: inputDecoration(context, label: locale.password),
                               autoFillHints: [AutofillHints.password],
-                              validator: (value) {
-                                if (value == null || value.length < 8 || value.length > 12) {
-                                  return "Password must be between 8 and 12 characters.";
-                                }
-                                return null;
-                              },
                               onFieldSubmitted: (s) {
                                 if (widget.isOTPLogin) {
                                   registerWithOTP();
                                 } else {
-                                  if (passwordCont.text.length >= 8 && passwordCont.text.length <= 12) {
-                                    registerUser();
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text("Password must be between 8 and 12 characters.")),
-                                    );
-                                  }
+                                  registerUser();
                                 }
                               },
                             ),
-
                             16.height,
                             GenderSelectionComponent(
                               onTap: (value) {
@@ -241,50 +211,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               },
                             ),
                             16.height,
-                            // AppTextField(
-                            //   textFieldType: TextFieldType.PHONE,
-                            //   controller: mobileCont,
-                            //   focus: mobileFocus,
-                            //   errorThisFieldRequired: locale.thisFieldIsRequired,
-                            //   decoration: inputDecoration(context, label: locale.contactNumber),
-                            //   maxLength: 15,
-                            // ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: context.height()*0.063,
-                                  decoration: BoxDecoration(
-                                    color: context.cardColor,
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  child: Center(
-                                    child: ValueListenableBuilder(
-                                      valueListenable: _valueNotifier,
-                                      builder: (context, value, child) => Row(
-                                        children: [
-                                          Text(
-                                            "+${selectedCountry.phoneCode}",
-                                            style: primaryTextStyle(size: 12),
-                                          ),
-                                          Icon(Icons.arrow_drop_down)
-                                        ],
-                                      ).paddingOnly(left: 8),
-                                    ),
-                                  ),
-                                ).onTap(() => changeCountry()),
-                                10.width,
-                                Expanded(
-                                  child: AppTextField(
-                                    textFieldType: TextFieldType.PHONE,
-                                    controller: mobileCont,
-                                    focus: mobileFocus,
-                                    errorThisFieldRequired: locale.thisFieldIsRequired,
-                                    decoration: inputDecoration(context, label: locale.contactNumber),
-                                    maxLength: 15,
-                                  ),
-                                ),
-                              ],
+                            AppTextField(
+                              textFieldType: TextFieldType.PHONE,
+                              controller: mobileCont,
+                              focus: mobileFocus,
+                              errorThisFieldRequired: locale.thisFieldIsRequired,
+                              decoration: inputDecoration(context, label: locale.contactNumber),
+                              maxLength: 15,
                             ),
                             16.height,
                           ],
@@ -296,15 +229,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         width: context.width(),
                         color: secondaryColor,
                         onTap: () async {
-                          if (genderValue == null) {
-                            // todo : add languages
-                            toast("Gender field is required");
+                          if (widget.isOTPLogin) {
+                            registerWithOTP();
                           } else {
-                            if (widget.isOTPLogin) {
-                              registerWithOTP();
-                            } else {
-                              registerUser();
-                            }
+                            registerUser();
                           }
                         },
                       ),

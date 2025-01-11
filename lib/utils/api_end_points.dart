@@ -15,8 +15,6 @@ class APIEndPoints {
   static final String bookingDetail = 'booking-detail';
   static final String bookingUpdate = 'booking-update';
   static final String bookingInvoiceDownload = 'booking-invoice-download';
-  static final String orderInvoiceDownload = 'order-invoice-download?id';
-
   static final String bookingList = 'booking-list';
   static final String bookingStatus = 'booking-status';
   static final String branchList = 'branch-list';
@@ -68,5 +66,4 @@ class APIEndPoints {
   static final String getPromotionList = 'get-promotion-list';
   static final String getPromotionDetails = 'get-promotion-details';
   static final String getPackageList= 'get-package';
-
 }

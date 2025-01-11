@@ -128,7 +128,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                     bookingStatus: widget.bookingStatus,
                     serviceList: snap.data!.serviceList.validate(),
                   ),
-                  24.height,
+                  16.height,
                   if (snap.data!.packages != null && snap.data!.packages!.isEmpty)
                     BookingServiceInformationComponent(
                       serviceList: snap.data!.serviceList.validate(),
@@ -143,7 +143,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                       bookingStatus: widget.bookingStatus,
                     ).paddingBottom(8),
 
-                  if (snap.data != null) PaymentInformationComponent(booking: snap.data!),
+                  PaymentInformationComponent(booking: snap.data!),
                   if (snap.data!.payment?.paymentStatus == 1 && snap.data!.status == BookingStatusConst.COMPLETED)
                     AppButton(
                       child: Text(locale.downloadInvoice, style: boldTextStyle(color: Colors.white)),

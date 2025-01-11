@@ -1488,5 +1488,68 @@ class LanguageEn extends BaseLanguage {
   String get theCouponAmountExceeds => 'The coupon amount exceeds the service price';
 
   @override
-  String get appliedTaxes => 'Applied Taxes';
+  String get night => 'Night';
+
+  @override
+  String get morning => 'Morning';
+
+  @override
+  String get afternoon => 'Afternoon';
+
+  @override
+  String get evening => 'Evening';
+
+  @override
+  String get newPasswordWarning => 'New password should not be the same as the old password';
+
+  @override
+  String get note => 'Note';
+
+  @override
+  String get setAsPrimary => 'Set As Primary';
+
+  @override
+  String get orderInvoice => 'Order Invoice';
+
+  @override
+  String get logisticPartner => 'Logistic Partner';
+
+  @override
+  String get logisticContactNumber => 'Logistic Contact Number';
+
+  @override
+  String get logisticAddress => 'Logistic Address';
+
+  @override
+  String get wouldYouLikeToDownloadTheInvoice => 'Would you like to download the invoice?';
+
+  @override
+  String get download => 'Download';
+
+  @override
+  String get failedToAccessExternalStorage => 'Failed to access external storage';
+
+  @override
+  String get invalidResponseOrLinkNotFound => 'Invalid response or link not found';
+
+  @override
+  String get failedToFetchInvoiceDetails => 'Failed to fetch invoice details';
+
+  @override
+  String get PayWithUpiApps => 'Pay With Upi Apps';
+
+  @override
+  String get PaywithCard => 'Pay with Card';
+
+  @override
+  String get ContactUsForAnyQuestionsOnYourOrder => 'Contact us for any questions on your order';
+
+  @override
+  String get ThePaymentTransactionDescription => 'The payment transaction description';
+
+  @override
+  String get FAQs => 'FAQs';
+
+  @override
+  String get noServicesAvailable => 'No services available';
 }

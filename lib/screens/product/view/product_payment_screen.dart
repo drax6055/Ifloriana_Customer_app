@@ -51,22 +51,6 @@ class _ProductPaymentScreenState extends State<ProductPaymentScreen> {
     if (mounted) super.setState(fn);
   }
 
-  int getLogisticZoneId() {
-    int id;
-    if (productStore.logisticZoneData.cities != null && productStore.logisticZoneData.cities!.isNotEmpty) {
-      if (productStore.logisticZoneData.cities!.first.pivot!.logisticZoneId != null) {
-        id = productStore.logisticZoneData.cities!.first.pivot!.logisticZoneId.validate();
-        return id;
-      } else {
-        id = productStore.logisticZoneData.logisticId.validate();
-        return id;
-      }
-    } else {
-      id = productStore.logisticZoneData.logisticId.validate();
-      return id;
-    }
-  }
-
   void placeOrder({required String txnId, required String paymentType, required String paymentStatus}) {
     appStore.setLoading(true);
 
@@ -76,17 +60,15 @@ class _ProductPaymentScreenState extends State<ProductPaymentScreen> {
       "billing_address_id": productStore.addressData.id,
       "phone": productStore.contactNumber,
       "alternative_phone": productStore.alternateContactNumber.isNotEmpty ? productStore.alternateContactNumber : '',
-      "chosen_logistic_zone_id": getLogisticZoneId(),
+      "chosen_logistic_zone_id": productStore.logisticZoneData.logisticId,
       "shipping_delivery_type": SHIPPING_DELIVERY_TYPE_REGULAR,
       "payment_method": paymentType,
       "payment_details": txnId.isNotEmpty ? txnId : '',
       "payment_status": paymentStatus,
     };
-    log("request : ${request}");
-    appStore.setLoading(false);
 
     /// Place Order API
-     placeOrderAPI(request).then((value) async {
+    placeOrderAPI(request).then((value) async {
       productStore.setCartItemCount(0);
       appStore.setLoading(false);
       finish(context);

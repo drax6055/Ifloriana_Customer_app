@@ -46,16 +46,6 @@ class _BookingListComponentState extends State<BookingListComponent> {
         isLastPage = p;
       },
     );
-    getBookingList(
-      branchId: appStore.branchId,
-      status: bookingRequestStore.selectedBookingStatusList.join(","),
-      page: page,
-      search: search,
-      bookings: bookings,
-      lastPageCallBack: (p) {
-        isLastPage = p;
-      },
-    );
     if (flag) setState(() {});
   }
 

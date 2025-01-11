@@ -199,7 +199,7 @@ Future<AirtelAuthModel> authorizeAirtelClient() async {
   Map<dynamic, dynamic>? request = {
     "client_id": getStringAsync(PaymentKeys.AIRTEL_MONEY_CLIENT_ID),
     "client_secret": getStringAsync(PaymentKeys.AIRTEL_MONEY_SECRET_KEY),
-    "grant_type": "client_credentials"
+    "grant_type": PaymentKeys.CLIENT_CREDENTIALS
   };
 
   return AirtelAuthModel.fromJson(

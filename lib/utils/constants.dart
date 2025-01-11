@@ -20,6 +20,8 @@ const NOTIFICATION_TYPE_BOOKING = 'booking';
 const IN_CART = 1;
 const DEFAULT_QUANTITY = 1;
 const SHIPPING_DELIVERY_TYPE_REGULAR = 'regular';
+const APP_BAR_TEXT_SIZE = 18;
+
 
 //region Branch Status
 const BRANCH_STATUS_OPEN = 'Open';
@@ -147,6 +149,9 @@ class ConfigurationKeyConst {
   static const DECIMAL_SEPARATOR = 'DECIMAL_SEPARATOR';
   static const IS_FORCE_UPDATE = 'IS_FORCE_UPDATE';
   static const VERSION_CODE = 'VERSION_CODE';
+  static const TERMS_CONDITION = 'TERMS_CONDITION_URL';
+  static const PRIVACY_POLICY = 'PRIVACY_POLICY_URL';
+  static const FAQ = 'FAQ_URL';
 }
 //endregion
 
@@ -158,6 +163,7 @@ class PaymentKeys {
   static const CINET_API_KEY = 'CINET_API_KEY';
   static const CINET_SECRET_KEY = 'CINET_SECRET_KEY';
   static const CINET_SITE_ID = 'CINET_SITE_ID';
+
   /// sadad pay keys
 
   static const SADAD_CLIENT_ID = 'SADAD_CLIENT_ID';
@@ -168,6 +174,7 @@ class PaymentKeys {
   static const AIRTEL_MONEY_CLIENT_ID = 'AIRTEL_MONEY_CLIENT_ID0';
   static const AIRTEL_MONEY_SECRET_KEY = 'AIRTEL_MONEY_SECRET_KEY';
   static const AIRTEL_MONEY_IS_IN_PRODUCTION = 'AIRTEL_MONEY_IS_IN_PRODUCTION';
+  static const CLIENT_CREDENTIALS = 'client_credentials';
 
   /// phone pe keys
   static const PHONE_PAY_APP_ID = 'PHONE_PAY_APP_ID';
@@ -268,7 +275,6 @@ class SharedPreferenceConst {
   static const BRANCH_ADDRESS = 'BRANCH_ADDRESS';
   static const BRANCH_NAME = 'BRANCH_NAME';
   static const AUTO_SLIDER_STATUS = 'AUTO_SLIDER_STATUS';
-  static const IS_USER_AUTHORIZED = 'IS_USER_AUTHORIZED';
 }
 
 //endregion
@@ -345,3 +351,5 @@ class FirebaseMsgConst {
 //region
 }
 //endregion
+
+

@@ -1488,5 +1488,68 @@ class LanguageHi extends BaseLanguage {
   String get theCouponAmountExceeds => 'कूपन राशि सेवा मूल्य से अधिक है';
 
   @override
-  String get appliedTaxes => 'लागू कर';
+  String get night => 'रात';
+
+  @override
+  String get morning => 'सुबह';
+
+  @override
+  String get afternoon => 'दोपहर';
+
+  @override
+  String get evening => 'शाम';
+
+  @override
+  String get newPasswordWarning => 'नया पासवर्ड पुराने पासवर्ड जैसा नहीं होना चाहिए';
+
+  @override
+  String get note => 'टिप्पणी';
+
+  @override
+  String get setAsPrimary => 'प्राथमिक के रूप में सेट करें';
+
+  @override
+  String get orderInvoice => 'आदेश चालान';
+
+  @override
+  String get logisticPartner => 'लॉजिस्टिक पार्टनर';
+
+  @override
+  String get logisticContactNumber => 'लॉजिस्टिक संपर्क नंबर';
+
+  @override
+  String get logisticAddress => 'लॉजिस्टिक पता';
+
+  @override
+  String get wouldYouLikeToDownloadTheInvoice => 'क्या आप चालान डाउनलोड करना चाहेंगे?';
+
+  @override
+  String get download => 'डाउनलोड करना';
+
+  @override
+  String get failedToAccessExternalStorage => 'बाह्य संग्रहण तक पहुँचने में विफल';
+
+  @override
+  String get invalidResponseOrLinkNotFound => 'अमान्य प्रतिक्रिया या लिंक नहीं मिला';
+
+  @override
+  String get failedToFetchInvoiceDetails => 'चालान विवरण लाने में विफल';
+
+  @override
+  String get PayWithUpiApps => 'यूपीआई ऐप्स से भुगतान करें';
+
+  @override
+  String get PaywithCard => 'कार्ड से भुगतान करें';
+
+  @override
+  String get ContactUsForAnyQuestionsOnYourOrder => 'अपने ऑर्डर पर किसी भी प्रश्न के लिए हमसे संपर्क करें';
+
+  @override
+  String get ThePaymentTransactionDescription => 'भुगतान लेनदेन विवरण';
+
+  @override
+  String get FAQs => 'पूछे जाने वाले प्रश्न';
+
+  @override
+  String get noServicesAvailable => 'कोई सेवा उपलब्ध नहीं';
 }

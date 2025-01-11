@@ -95,14 +95,14 @@ class OrderItemComponent extends StatelessWidget {
                           Marquee(
                             child: Row(
                               children: [
-                                PriceWidget(
+                                if (orderListData.isDiscount) PriceWidget(
                                   price: orderListData.taxIncludeProductPrice.validate(),
                                   isLineThroughEnabled: orderListData.isDiscount ? true : false,
                                   size: orderListData.isDiscount ? 12 : 16,
                                   color: orderListData.isDiscount ? textSecondaryColorGlobal : null,
                                 ),
                                 4.width,
-                                if (orderListData.isDiscount) PriceWidget(price: orderListData.getProductPrice.validate()),
+                                PriceWidget(price: orderListData.getProductPrice.validate()),
                                 if (orderListData.isDiscount) 8.width,
                                 if (orderListData.isDiscount) Text('${orderListData.discountValue.validate()}% off', style: primaryTextStyle(color: greenColor)),
                               ],
@@ -123,7 +123,7 @@ class OrderItemComponent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(locale.payment, style: secondaryTextStyle()),
-              Text('${getOrderData.paymentStatus.capitalizeFirstLetter()}', style: boldTextStyle(color: wishListColor)),
+              Text('${getOrderData.paymentStatus.capitalizeFirstLetter()}', style: boldTextStyle(color: Colors.green)),
             ],
           ).paddingSymmetric(horizontal: 16),
           10.height,

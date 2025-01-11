@@ -69,8 +69,8 @@ class _ConfirmBookingDialog extends State<ConfirmBookingDialog> {
                   style: secondaryTextStyle(),
                   children: [
                     TextSpan(
-                      text: locale.termsConditions.toLowerCase()+".",
-                      style: secondaryTextStyle(color: secondaryColor),
+                      text: locale.termsConditions+".",
+                      style: secondaryTextStyle(color: secondaryColor,size: 15,weight: FontWeight.bold),
                       recognizer: TapGestureRecognizer()..onTap = handleClick,
                     ),
                   ],

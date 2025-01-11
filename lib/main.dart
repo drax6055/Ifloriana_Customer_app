@@ -131,8 +131,6 @@ void main() async {
     await userStore.setContactNumber(getStringAsync(SharedPreferenceConst.CONTACT_NUMBER), isInitializing: true);
     await appStore.setHelplineNumber(getStringAsync(SharedPreferenceConst.HELPLINE_NUMBER), isInitializing: true);
     await appStore.setInquiryEmail(getStringAsync(SharedPreferenceConst.INQUIRY_EMAIL), isInitializing: true);
-    await appStore.setPrivacyPolicy(getStringAsync(SharedPreferenceConst.PRIVACY_POLICY), isInitializing: true);
-    await appStore.setTermConditions(getStringAsync(SharedPreferenceConst.TERM_CONDITIONS), isInitializing: true);
   }
 
   runApp(const MyApp());

@@ -6,7 +6,6 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../main.dart';
 import '../../network/network_utils.dart';
 import '../../utils/constants.dart';
-import '../order/model/order_status_response.dart';
 import 'model/booking_status_response.dart';
 
 Future<List<BookingStatusData>> getBookingStatus() async {
@@ -47,22 +46,10 @@ Future saveBookingAPI(Map request) async {
 Future bookingUpdate(Map request) async {
   return await handleResponse(await buildHttpResponse(APIEndPoints.bookingUpdate, request: request, method: HttpMethodType.POST));
 }
-
 Future<BookingStatusResponse> getInvoiceLink({required String bookingId}) async {
-  return BookingStatusResponse.fromJson(
-      await handleResponse(
-          await buildHttpResponse("${APIEndPoints.bookingInvoiceDownload}?id=$bookingId", method: HttpMethodType.GET)));
+  return BookingStatusResponse.fromJson(await handleResponse(await buildHttpResponse("${APIEndPoints.bookingInvoiceDownload}?id=$bookingId", method: HttpMethodType.GET)));
 }
 
-Future<OrderStatusResponse> getOrderInvoiceLink({required String orderId}) async {
-  print("Fetching PDF for order ID: $orderId");
-
-  return OrderStatusResponse.fromJson(
-    await handleResponse(
-        await buildHttpResponse("${APIEndPoints.orderInvoiceDownload}="
-            "$orderId", method: HttpMethodType.GET)));
-
-}
 
 Future verifySlot(int employeeId, String startDateTime) async {
   Map request = {
@@ -81,23 +68,6 @@ Future<List<BookingListData>> getBookingList({
   required List<BookingListData> bookings,
   Function(bool)? lastPageCallBack,
 }) async {
-  String statusData = status.isNotEmpty ? '&status=$status' : '';
-
-  String searchBooking = search.isNotEmpty ? '&search=$search' : '';
-
-  BookingListResponse res = BookingListResponse.fromJson(await handleResponse(await buildHttpResponse(
-    '${APIEndPoints.bookingList}?branch_id=$branchId$statusData$searchBooking&per_page=$perPage&page=$page',
-    method: HttpMethodType.GET,
-  )));
-
-  if (page == 1) bookings.clear();
-  bookings.addAll(res.data.validate());
-
-  lastPageCallBack?.call(res.data.validate().length != perPage);
-
-  appStore.setLoading(false);
-
-  return bookings;
   try {
     String statusData = status.isNotEmpty ? '&status=$status' : '';
 

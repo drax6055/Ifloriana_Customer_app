@@ -69,7 +69,6 @@ class _SignInScreenState extends State<SignInScreen> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
-
       appStore.setLoading(true);
 
       Map request = {

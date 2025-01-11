@@ -7,7 +7,10 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../configs.dart';
 import '../../../main.dart';
 import '../../../models/about_model.dart';
+import '../../../models/configuration_response.dart';
+import '../../../network/rest_apis.dart';
 import '../../../utils/app_common.dart';
+import '../../../utils/constants.dart';
 import 'about_us_screen.dart';
 
 List<AboutModel> getAboutDataModel({required BuildContext context}) {
@@ -51,31 +54,90 @@ List<AboutModel> getAboutDataModel({required BuildContext context}) {
 
   return aboutList;
 }
+Future<List<Pages>> fetchPagesData() async {
+  try {
+    // Ensure `getAppConfigurations` is called to populate the cache
+    ConfigurationResponse configResponse = await getAppConfigurations();
 
-List<AboutModel> getHelpList({required BuildContext context}) {
-  List<AboutModel> aboutList = [];
-
-  aboutList.add(AboutModel(
-    title: locale.privacyPolicy,
-    icon: ic_privacy_policy,
-    onTap: () {
-      commonLaunchUrl(PRIVACY_POLICY_URL, launchMode: LaunchMode.externalApplication);
-    },
-  ));
-  aboutList.add(AboutModel(
-    title: locale.termsConditions,
-    icon: ic_terms_conditions,
-    onTap: () {
-      commonLaunchUrl(TERMS_CONDITION_URL, launchMode: LaunchMode.externalApplication);
-    },
-  ));
-
-  aboutList.add(AboutModel(
-    title: locale.helpCenter,
-    icon: ic_call,
-    onTap: () {
-      launchCall(appStore.helplineNumber.validate());
-    },
-  ));
-  return aboutList;
+    // Return the pages data from the cached response
+    return configResponse.pages;
+  } catch (e) {
+    log("Error fetching pages data: $e");
+    return []; // Return an empty list if an error occurs
+  }
 }
+
+
+// List<AboutModel> getHelpList({required BuildContext context}) {
+//   List<AboutModel> aboutList = [];
+//
+//   aboutList.add(
+//       AboutModel(
+//     title: locale.privacyPolicy,
+//     icon: ic_privacy_policy,
+//     onTap: () {
+//       checkIfLink(context, getStringAsync(ConfigurationKeyConst.PRIVACY_POLICY), title: locale.privacyPolicy);
+//     },
+//   ));
+//   aboutList.add(AboutModel(
+//     title: locale.termsConditions,
+//     icon: ic_terms_conditions,
+//     onTap: () {
+//       checkIfLink(context, getStringAsync(ConfigurationKeyConst.TERMS_CONDITION), title: locale.termsConditions);
+//     },
+//   ));
+//
+//   aboutList.add(AboutModel(
+//     title: "FAQs",
+//     icon: ic_faq,
+//     onTap: () {
+//       checkIfLink(context, getStringAsync(ConfigurationKeyConst.FAQ), title: "FAQs");
+//     },
+//   ));
+//
+//   aboutList.add(AboutModel(
+//     title: locale.helpCenter,
+//     icon: ic_call,
+//     onTap: () {
+//       launchCall(appStore.helplineNumber.validate());
+//     },
+//   ));
+//   return aboutList;
+// }
+Future<List<AboutModel>> getHelpList({required BuildContext context}) async {
+  try {
+    // Fetch Pages data using fetchPagesData
+    List<Pages> pagesData = await fetchPagesData();
+    return pagesData.map<AboutModel>((page) {
+      print(page.title);
+
+      // Define the icon based on the title match
+      String icon;
+
+      if (page.title == locale.privacyPolicy) {
+        icon = ic_privacy_policy; // Assign the String path
+      } else if (page.title == locale.termsConditions) {
+        icon = ic_terms_conditions;
+      } else if (page.title == locale.FAQs) {
+        icon = ic_faq;
+      } else if (page.title == locale.helpCenter) {
+        icon = ic_call;
+      } else {
+        icon = ic_default; // Provide a default path
+      }
+
+      return AboutModel(
+        title: page.title.validate(), // Use the title from Pages
+        icon: icon, // Assign the matched icon
+        onTap: () {
+          checkIfLink(context, page.description.validate(), title: page.title.validate());
+        },
+      );
+    }).toList();
+
+  } catch (e) {
+    log("Error creating help list: $e");
+    return [];
+  }
+}
+

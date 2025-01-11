@@ -129,7 +129,7 @@ class BookingItemComponent extends StatelessWidget {
                           ic_booking_status.iconImage(size: 16, color: primaryColor).paddingRight(8),
                           Text(
                             getBookingStatusKey(status: bookingData.status.validate()),
-                            style: boldTextStyle(size: 13, color: primaryColor),
+                            style: boldTextStyle(size: 13, color: getBookingStatusColor(status: bookingData.status.validate())),
                             maxLines: 1,
                           ),
                         ],

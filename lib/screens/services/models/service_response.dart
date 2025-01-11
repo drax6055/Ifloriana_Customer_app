@@ -82,7 +82,9 @@ class ServiceListData {
       categoryId: json['category_id'],
       createdAt: json['created_at'],
       createdBy: json['created_by'] != null ? json['created_by'] : null,
-      defaultPrice: json['default_price'],
+      defaultPrice: (json['default_price'] != null)
+          ? (json['default_price'] as num).toDouble()
+          : null,
       servicePrice: json['service_price'],
       deletedAt: json['deleted_at'] != null ? json['deleted_at'] : null,
       deletedBy: json['deleted_by'] != null ? json['deleted_by'] : null,

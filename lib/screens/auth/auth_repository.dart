@@ -31,7 +31,11 @@ Future<LoginResponse> loginUser(Map request, {bool isSocialLogin = false, bool i
   )));
 
   if (isRegenerateToken) {
-    await userStore.setToken(res.userData!.apiToken.validate());
+    if (res.status == false) {
+      toast(res.message);
+    } else {
+      await userStore.setToken(res.userData!.apiToken.validate());
+    }
   } else {
     if (!isSocialLogin) await userStore.setLoginType(LoginTypeConst.LOGIN_TYPE_USER);
 
@@ -111,13 +115,7 @@ Future<void> logoutApi({bool clearBranchData = true}) async {
 }
 // endregion
 
-Future<dynamic> updateProfile({File? imageFile,
-  String firstName = '',
-  String lastName = '',
-  String email = '',
-  String mobile = '', String
-  gender = '', Function(dynamic)? onSuccess}) async {
-
+Future<dynamic> updateProfile({File? imageFile, String firstName = '', String lastName = '', String mobile = '', String gender = '', Function(dynamic)? onSuccess}) async {
   if (appStore.isLoggedIn) {
     MultipartRequest multiPartRequest = await getMultiPartRequest('${APIEndPoints.updateProfile}');
 
@@ -125,7 +123,6 @@ Future<dynamic> updateProfile({File? imageFile,
     if (lastName.isNotEmpty) multiPartRequest.fields[UserKeys.lastName] = lastName;
     if (mobile.isNotEmpty) multiPartRequest.fields[UserKeys.mobile] = mobile;
     if (gender.isNotEmpty) multiPartRequest.fields[UserKeys.gender] = gender;
-    if (email.isNotEmpty) multiPartRequest.fields[UserKeys.email] = email;
 
     if (imageFile != null) {
       multiPartRequest.files.add(await MultipartFile.fromPath(UserKeys.profileImage, imageFile.path));

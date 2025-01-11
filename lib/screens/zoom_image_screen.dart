@@ -52,8 +52,7 @@ class _ZoomImageScreenState extends State<ZoomImageScreen> {
               enableRotation: false,
               backgroundDecoration: BoxDecoration(color: scaffoldDarkColor),
               pageController: PageController(initialPage: widget.index),
-
-          builder: (BuildContext context, int index) {
+              builder: (BuildContext context, int index) {
                 return PhotoViewGalleryPageOptions(
                   imageProvider: Image.network(widget.galleryImages![index], errorBuilder: (context, error, stackTrace) => PlaceHolderWidget()).image,
                   initialScale: PhotoViewComputedScale.contained,

@@ -11,9 +11,8 @@ import 'package:nb_utils/nb_utils.dart';
 class ApplyCouponComponent extends StatefulWidget {
   final VoidCallback? callback;
   final BookingRequestModel? taxRequest;
-  final bool isFromBookingStep3;
 
-  const ApplyCouponComponent({super.key, this.isFromBookingStep3 = false, this.callback, this.taxRequest});
+  const ApplyCouponComponent({super.key, this.callback, this.taxRequest});
 
   @override
   State<ApplyCouponComponent> createState() => _ApplyCouponComponentState();
@@ -30,13 +29,15 @@ class _ApplyCouponComponentState extends State<ApplyCouponComponent> {
         children: [
           Row(
             children: [
-              CachedImageWidget(url: ic_gift_coupon, height: 22, color: appStore.isDarkMode ? Colors.white : secondaryColor),
+              CachedImageWidget(url: ic_gift_coupon, height: 22 , color: appStore.isDarkMode
+              ? Colors.white
+              : secondaryColor),
               16.width,
               Text(locale.coupons, style: secondaryTextStyle(size: 16)),
               Spacer(),
               Text(locale.selectCoupon, style: boldTextStyle(color: context.primaryColor)).onTap(
                 () {
-                  if (widget.taxRequest != null && widget.taxRequest!.selectedServiceList != null || bookingRequestStore.selectedServiceList.isNotEmpty || bookingRequestStore.selectedPackageList.isNotEmpty) {
+                  if (widget.taxRequest != null && widget.taxRequest!.selectedServiceList != null || bookingRequestStore.selectedServiceList.isNotEmpty||bookingRequestStore.selectedPackageList.isNotEmpty) {
                     showModalBottomSheet(
                       isScrollControlled: true,
                       isDismissible: true,
@@ -110,9 +111,9 @@ class _ApplyCouponComponentState extends State<ApplyCouponComponent> {
                     ),
                     8.width,
                     Text(
-                      "${locale.youSaved} ${leftCurrencyFormat()}${widget.isFromBookingStep3 ? bookingRequestStore.finalDiscountCouponAmount : widget.taxRequest?.totalCouponDiscount.validate()}${rightCurrencyFormat()}",
+                      "${locale.youSaved} ${leftCurrencyFormat()}${widget.taxRequest?.totalCouponDiscount.validate()}${rightCurrencyFormat()}",
                       style: boldTextStyle(color: greenColor),
-                    ),
+                    )
                   ],
                 ),
               ],

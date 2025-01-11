@@ -170,7 +170,7 @@ class _DashboardAppBarComponentState extends State<DashboardAppBarComponent> {
                   SelectBranchScreen(isFromDashboard: true).launch(context);
                 }),
                 16.height,
-                DottedLine(dashColor: secondaryColor, dashGapLength: 0).paddingOnly(right: 10),
+                DottedLine(dashColor: lightPrimaryColor, dashGapLength: 0).paddingOnly(right: 10),
               ],
             ),
           ),

@@ -49,10 +49,13 @@ abstract class _AppStore with Store {
   String currencySymbol = '';
 
   @observable
-  String privacyPolicy = '';
+  String termConditions = getStringAsync(TERMS_CONDITION_URL);
 
   @observable
-  String termConditions = '';
+  String privacyPolicy = getStringAsync(PRIVACY_POLICY_URL);
+
+  @observable
+  String fAQ = getStringAsync(FAQs_URL);
 
   @observable
   String inquiryEmail = '';
@@ -74,17 +77,6 @@ abstract class _AppStore with Store {
 
   @observable
   String branchContactNumber = '';
-
-  @observable
-  bool isUserAuthorized = getBoolAsync(IS_USER_AUTHORIZED);
-
-
-
-  @action
-  Future<void> setISUserAuthorized(bool val) async {
-    isUserAuthorized = val;
-    await setValue(IS_USER_AUTHORIZED, val);
-  }
 
   @action
   Future<void> setBranchAddress(String val, {bool isInitializing = false}) async {
@@ -127,17 +119,21 @@ abstract class _AppStore with Store {
   }
 
   @action
-  Future<void> setTermConditions(String val, {bool isInitializing = false}) async {
+  Future<void> setTermConditions(String val) async {
     termConditions = val;
-    if (!isInitializing) await setValue(SharedPreferenceConst.TERM_CONDITIONS, val);
+    await setValue(TERMS_CONDITION_URL, val);
   }
 
   @action
-  Future<void> setPrivacyPolicy(String val, {bool isInitializing = false}) async {
-    privacyPolicy = val;
-    if (!isInitializing) await setValue(SharedPreferenceConst.PRIVACY_POLICY, val);
+  Future<void> setFaq(String val) async {
+    fAQ = val;
+    await setValue(FAQs_URL, val);
   }
-
+  @action
+  Future<void> setPrivacyPolicy(String val) async {
+    privacyPolicy = val;
+    await setValue(PRIVACY_POLICY_URL, val);
+  }
   @action
   Future<void> setCurrencySymbol(String val, {bool isInitializing = false}) async {
     currencySymbol = val;
@@ -189,8 +185,6 @@ abstract class _AppStore with Store {
   void setSpeechStatus(bool val) {
     isSpeechActivated = val;
   }
-
-
 
   @action
   Future<void> setDarkMode(bool val) async {

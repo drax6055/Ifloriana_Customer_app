@@ -993,5 +993,47 @@ abstract class BaseLanguage {
 
   String get theCouponAmountExceeds;
 
-  String get appliedTaxes;
+  String get night;
+
+  String get morning;
+
+  String get afternoon;
+
+  String get evening;
+
+  String get newPasswordWarning;
+
+  String get note;
+
+  String get setAsPrimary;
+
+  String get orderInvoice;
+
+  String get logisticPartner;
+
+  String get logisticContactNumber;
+
+  String get logisticAddress;
+
+  String get wouldYouLikeToDownloadTheInvoice;
+
+  String get download;
+
+  String get failedToAccessExternalStorage;
+
+  String get invalidResponseOrLinkNotFound;
+
+  String get failedToFetchInvoiceDetails;
+
+  String get PayWithUpiApps;
+
+  String get PaywithCard;
+
+  String get ContactUsForAnyQuestionsOnYourOrder;
+
+  String get ThePaymentTransactionDescription;
+
+  String get FAQs;
+
+  String get noServicesAvailable;
 }

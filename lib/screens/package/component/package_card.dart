@@ -39,13 +39,21 @@ class _PackageCardState extends State<PackageCard> {
 
   @override
   Widget build(BuildContext context) {
+    print("--------------------------");
+    print('PackageCard: isPurchased = ${widget.isPurchased}');
+    print('PackageCard: showPurchaseButton = ${widget.showPurchaseButton}');
+    print('PackageCard: showReclaimButton = ${widget.showReclaimButton}');
+    print('PackageCard: IDDDD = ${widget.package.id}');
+    print("--------------------------");
+
     final DateTime endDate = DateTime.parse(widget.package.endDate.validate());
     final bool isExpired = endDate.isBefore(DateTime.now());
 
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),
       onExit: (_) => setState(() => isHovered = false),
-      child: Container(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
         margin: EdgeInsets.only(top: 16, left: 16, right: 16),
         width: double.infinity,
         decoration: BoxDecoration(
@@ -59,7 +67,6 @@ class _PackageCardState extends State<PackageCard> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

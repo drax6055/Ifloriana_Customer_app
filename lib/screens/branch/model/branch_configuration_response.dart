@@ -77,6 +77,7 @@ class SlotData {
   DateTime? previousTimeSlot;
   String? sessionText;
   bool isAvailable;
+
   // local
   bool slotAvailability(DateTime date) => date.isToday ? isTimeBefore(TimeOfDay.now(), startTime!.getTimeOfDay()) : true;
 
@@ -98,7 +99,6 @@ class SlotData {
     this.updatedBy,
     this.updatedGuard,
     this.isAvailable = true,
-
   });
 
   factory SlotData.fromJson(Map<String, dynamic> json) {
@@ -137,9 +137,6 @@ class SlotData {
     data['updated_at'] = this.updatedAt;
     data['updated_guard'] = this.updatedGuard;
     data['is_available'] = this.isAvailable;
-    if (this.breaks != null) {
-      data['breaks'] = this.breaks!.map((v) => v.toJson()).toList();
-    }
     if (this.breaks != null) {
       data['breaks'] = data['breaks'] = this.breaks!.map((v) => v.toJson()).toList();
     }

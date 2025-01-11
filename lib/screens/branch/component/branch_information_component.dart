@@ -37,16 +37,27 @@ class _BranchInformationComponentState extends State<BranchInformationComponent>
     return Container(
       decoration: boxDecorationDefault(color: color ?? context.cardColor),
       alignment: Alignment.center,
-      child: TextIcons(
-        edgeInsets: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        expandedText: true,
-        useMarquee: true,
-        text: title.validate(),
-        spacing: 8,
-        textStyle: primaryTextStyle(color: secondaryColor, size: 14),
-        prefix: icon.validate().iconImage(size: 16, color: secondaryColor),
-        onTap: callback,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if (icon != null)
+            icon.iconImage(size: 16, color: secondaryColor),
+          if (icon != null && title != null) SizedBox(width: 8),
+          if (title != null)
+            Flexible(
+              child: Marquee(
+                child: Text(
+                  title.validate(),
+                  style: primaryTextStyle(color: secondaryColor, size: 14),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+        ],
+      ).onTap(callback),
     );
   }
 
@@ -64,7 +75,7 @@ class _BranchInformationComponentState extends State<BranchInformationComponent>
           children: [
             Row(
               children: [
-                Marquee(child: Text(widget.branchData.name.validate(), style: boldTextStyle(size: 16))).expand(),
+                Text(widget.branchData.name.validate(), style: boldTextStyle(size: 16)),
                 6.width,
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 1),

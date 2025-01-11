@@ -18,7 +18,7 @@ class CartIconBtnComponent extends StatelessWidget {
     return Observer(builder: (context) {
       return Container(
         height: showBGCardColor ? 40 : null,
-        decoration: showBGCardColor ? boxDecorationWithShadow(boxShape: BoxShape.circle, backgroundColor: context.cardColor) : null,
+        decoration: showBGCardColor ? boxDecorationWithShadow(boxShape: BoxShape.circle, backgroundColor: cardColor) : null,
         child: Stack(
           clipBehavior: Clip.none,
           children: [

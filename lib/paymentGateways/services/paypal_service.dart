@@ -59,10 +59,10 @@ class PayPalService {
             "currency": appStore.currencyCode,
             "details": {"subtotal": totalAmount, "shipping": '0', "shipping_discount": 0}
           },
-          "description": "The payment transaction description.",
+          "description": locale.ThePaymentTransactionDescription,
         }
       ],
-      note: "Contact us for any questions on your order.",
+      note: locale.ContactUsForAnyQuestionsOnYourOrder,
       onSuccess: (Map params) async {
         log("onSuccess: $params");
 

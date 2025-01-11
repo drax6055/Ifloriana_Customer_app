@@ -33,6 +33,7 @@ class Assets {
   static const String iconsIcDribble = 'assets/icons/ic_dribble.png';
   static const String iconsIcEditSquare = 'assets/icons/ic_edit_square.png';
   static const String iconsIcFacebook = 'assets/icons/ic_facebook.png';
+  static const String iconsIcFaq = 'assets/icons/ic_faq.png';
   static const String iconsIcFillDislike = 'assets/icons/ic_fill_dislike.png';
   static const String iconsIcFillHeart = 'assets/icons/ic_fill_heart.png';
   static const String iconsIcFillLike = 'assets/icons/ic_fill_like.png';
@@ -77,6 +78,8 @@ class Assets {
   static const String iconsIcUnselectedProfile = 'assets/icons/ic_unselected_profile.png';
   static const String iconsIcUnselectedShop = 'assets/icons/ic_unselected_shop.png';
   static const String iconsIcVerified = 'assets/icons/ic_verified.png';
+  static const String iconsIcWalletBalance = 'assets/icons/ic_wallet_balance.png';
+  static const String iconsIcWalletHistory = 'assets/icons/ic_wallet_history.png';
   static const String imagesBgPattern = 'assets/images/bg_pattern.png';
   static const String imagesBrand1 = 'assets/images/brand_1.png';
   static const String imagesBrand2 = 'assets/images/brand_2.png';
@@ -110,7 +113,7 @@ class Assets {
   static const String imagesRazorpayLogo = 'assets/images/razorpay_logo.png';
   static const String imagesStripeLogo = 'assets/images/stripe_logo.png';
   static const String imagesWalkImg1 = 'assets/images/walk_img_1.png';
-  static const String imagesWalkImg2 = 'assets/images/app_logo.png';
+  static const String imagesWalkImg2 = 'assets/images/walk_img_2.png';
   static const String imagesWalkImg3 = 'assets/images/walk_img_3.png';
   static const String lottieAppLoader = 'assets/lottie/app_loader.json';
   static const String lottieEmptyLottie = 'assets/lottie/empty_lottie.json';

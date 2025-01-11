@@ -42,9 +42,9 @@ class _ProfileFragmentState extends State<ProfileFragment> {
   }
 
   void init() async {
-    afterBuildCreated(() {
+    afterBuildCreated(() async{
       aboutAppList = getAboutDataModel(context: context);
-      helpList = getHelpList(context: context);
+      helpList = await getHelpList(context: context);
       setState(() {});
     });
   }
@@ -138,6 +138,35 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                   ),
                 Column(
                   children: [
+                    // SettingItemWidget(
+                    //   title: "Wallet Balance",
+                    //   titleTextStyle: boldTextStyle(size: LABEL_TEXT_SIZE),
+                    //   trailing: Text("\$230.00",style: boldTextStyle(color: primaryColor),),
+                    //   leading: ic_wallet_balance.iconImage(fit: BoxFit.cover, size: 18),
+                    //   decoration: boxDecorationWithRoundedCorners(backgroundColor: context.cardColor),
+                    //   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    //   onTap: () {
+                    //     OrderListScreen(showBack: true).launch(context, pageRouteAnimation: PageRouteAnimation.Fade);
+                    //   },
+                    //   hoverColor: Colors.transparent,
+                    //   highlightColor: Colors.transparent,
+                    //   splashColor: Colors.transparent,
+                    // ).visible(appStore.isLoggedIn),
+                    // if (appStore.isLoggedIn) 16.height,
+                    // SettingItemWidget(
+                    //   title: "Wallet History",
+                    //   titleTextStyle: boldTextStyle(size: LABEL_TEXT_SIZE),
+                    //   leading: ic_wallet_history.iconImage(fit: BoxFit.cover, size: 18),
+                    //   decoration: boxDecorationWithRoundedCorners(backgroundColor: context.cardColor),
+                    //   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    //   onTap: () {
+                    //     OrderListScreen(showBack: true).launch(context, pageRouteAnimation: PageRouteAnimation.Fade);
+                    //   },
+                    //   hoverColor: Colors.transparent,
+                    //   highlightColor: Colors.transparent,
+                    //   splashColor: Colors.transparent,
+                    // ).visible(appStore.isLoggedIn),
+                    // if (appStore.isLoggedIn) 16.height,
                     SettingItemWidget(
                       title: locale.orders,
                       titleTextStyle: boldTextStyle(size: LABEL_TEXT_SIZE),
@@ -251,7 +280,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       onTap: () {
                         doIfLoggedIn(context, () {
-                          DashboardScreen(pageIndex: 4).launch(context, isNewTask: true);
+                          DashboardScreen(pageIndex: 3).launch(context, isNewTask: true);
                         });
                       },
                       hoverColor: Colors.transparent,

@@ -21,41 +21,41 @@ class BookingServiceInformationComponent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(locale.services, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
-        Container(
-          decoration: boxDecorationDefault(color: context.cardColor),
-          padding: EdgeInsets.all(16),
-          margin: EdgeInsets.only(top: 12),
-          child: AnimatedWrap(
-            runSpacing: 10,
-            itemCount: serviceList.length,
-            itemBuilder: (context, index) {
-              ServiceListData data = serviceList[index];
+        if (productList.validate().isNotEmpty) ...[
+          Text(locale.services, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+          Container(
+            decoration: boxDecorationDefault(color: context.cardColor),
+            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.only(top: 12),
+            child: AnimatedWrap(
+              runSpacing: 10,
+              itemCount: serviceList.length,
+              itemBuilder: (context, index) {
+                ServiceListData data = serviceList[index];
 
-              return Row(
-                children: [
-                  CachedImageWidget(
-                    url: data.serviceImage.validate(),
-                    height: 26,
-                    width: 26,
-                    circle: true,
-                  ),
-                  8.width,
-                  CommonRowTextWidget(
-                    leadingText: data.serviceName.validate(),
-                    trailingText: data.servicePrice.toString(),
-                    isPrice: true,
-                    leftWidgetFlex: 2,
-                    rightWidgetFlex: 1,
-                  ).expand(),
-                ],
-              );
-            },
+                return Row(
+                  children: [
+                    CachedImageWidget(
+                      url: data.serviceImage.validate(),
+                      height: 26,
+                      width: 26,
+                      circle: true,
+                    ),
+                    8.width,
+                    CommonRowTextWidget(
+                      leadingText: data.serviceName.validate(),
+                      trailingText: data.servicePrice.toString(),
+                      isPrice: true,
+                      leftWidgetFlex: 2,
+                      rightWidgetFlex: 1,
+                    ).expand(),
+                  ],
+                );
+              },
+            ),
           ),
-        ),
-        if (productList.validate().isNotEmpty) 20.height,
-        if (productList.validate().isNotEmpty) Text(locale.parchasedProducts, style: boldTextStyle(size: LABEL_TEXT_SIZE)).paddingBottom(12),
-        if (productList.validate().isNotEmpty)
+          20.height,
+          Text(locale.parchasedProducts, style: boldTextStyle(size: LABEL_TEXT_SIZE)).paddingBottom(12),
           AnimatedWrap(
             runSpacing: 16,
             itemCount: productList.validate().length,
@@ -108,7 +108,8 @@ class BookingServiceInformationComponent extends StatelessWidget {
               );
             },
           ),
-        8.height,
+          if (productList.validate().isNotEmpty) 8.height,
+        ]
       ],
     );
   }

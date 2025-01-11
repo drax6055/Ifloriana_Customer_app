@@ -69,7 +69,7 @@ class _WalkThroughScreenState extends State<WalkThroughScreen> {
                           await setValue(SharedPreferenceConst.IS_FIRST_TIME, false);
                           SelectBranchScreen().launch(context, isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
                         },
-                        child: Text(locale.skip, style: boldTextStyle(color: white)),
+                        child: Text(currentPosition == 2 ? "" : locale.skip, style: boldTextStyle(color: white)),
                       ),
                     )
                   ],

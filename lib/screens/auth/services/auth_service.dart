@@ -55,6 +55,7 @@ class AuthService {
   }
 
 //endregion
+
   Future<void> updateUserData(UserData user) async {
     userService.updateDocument(
       {
@@ -138,7 +139,7 @@ class AuthService {
       'login_type': LoginTypeConst.LOGIN_TYPE_APPLE,
       "user_type": LoginTypeConst.LOGIN_TYPE_USER,
     };
-//
+
     log("Apple Login Json" + jsonEncode(req));
 
     await loginUser(req, isSocialLogin: true).then((value) async {

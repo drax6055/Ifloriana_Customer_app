@@ -49,7 +49,7 @@ class _HomeFragmentState extends State<HomeFragment> {
   }
 
   void init() async {
-    future = userDashboard(branchId: appStore.branchId);
+    future = userDashboard(branchId: appStore.branchId,perPage: 15);
     if (appConfigurationResponseCached == null) {
       getAppConfigurations();
     }
@@ -107,6 +107,9 @@ class _HomeFragmentState extends State<HomeFragment> {
                   children: [
                     40.height,
 
+                    /// Horizontal
+                    HorizontalSliderComponent(sliderList: snap.data!.sliderData.validate()),
+
                     /// Package Expiring Soon
                     if (snap.expiringPackagesList != null && snap.expiringPackagesList!.isNotEmpty)ExpiringSoonComponent(expiringPackageList: snap.expiringPackagesList),
 
@@ -124,9 +127,6 @@ class _HomeFragmentState extends State<HomeFragment> {
 
                     ///Category List
                     CategoryComponent(categoryList: snap.data!.category),
-
-                    /// Horizontal
-                    HorizontalSliderComponent(sliderList: snap.data!.sliderData.validate()),
 
                     /// Experts
                     TopExpertsComponent(topExpertList: snap.data!.topExperts.validate()),

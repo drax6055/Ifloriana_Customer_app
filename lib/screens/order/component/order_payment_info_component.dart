@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ifloriana/screens/order/model/order_detail_response.dart';
 import 'package:ifloriana/utils/colors.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -8,7 +7,6 @@ import '../../../components/price_widget.dart';
 import '../../../components/view_all_label_component.dart';
 import '../../../main.dart';
 import '../../../utils/common_base.dart';
-import '../../../utils/constants.dart';
 
 class OrderPaymentInfoComponent extends StatelessWidget {
   final OrderListData orderData;
@@ -46,13 +44,25 @@ class OrderPaymentInfoComponent extends StatelessWidget {
                 ).paddingBottom(10),
 
               /// Delivery Charge
-              if (orderData.logisticCharge != 0)
+              if (orderData.standardDeliverycharge != 0 && orderData.standardDeliverycharge != null)
                 SettingItemWidget(
                   title: locale.deliveryCharge,
                   titleTextStyle: secondaryTextStyle(),
                   padding: EdgeInsets.zero,
-                  trailing: Marquee(child: PriceWidget(price: orderData.logisticCharge.validate(), color: textPrimaryColorGlobal, size: 14)),
+                  trailing: Marquee(child: PriceWidget(
+                      price:orderData.standardDeliverycharge .validate(),
+                      color: textPrimaryColorGlobal, size: 14)),
                 ).paddingBottom(10),
+
+              /// Payment Status
+              SettingItemWidget(
+                title: locale.paymentStatus,
+                titleTextStyle: secondaryTextStyle(),
+                padding: EdgeInsets.zero,
+                trailing: Marquee(
+                    child: PriceWidget(price: 0, priceText: getBookingPaymentStatus(status: orderData.paymentStatus.validate().capitalizeFirstLetter()), color: textPrimaryColorGlobal, size: 14)),
+              ),
+              10.height,
 
               /// Total Amount
               SettingItemWidget(
@@ -60,17 +70,8 @@ class OrderPaymentInfoComponent extends StatelessWidget {
                 titleTextStyle: secondaryTextStyle(),
                 padding: EdgeInsets.zero,
                 trailing: Marquee(
-                  // todo : check this
-                  child: PriceWidget(price: orderData.totalAmount.validate(), color: primaryColor, size: 14),
+                  child: PriceWidget(price: orderData.totalPriceAmount.validate(), color: primaryColor, size: 14),
                 ),
-              ),
-              10.height,
-              /// Payment Status
-              SettingItemWidget(
-                title: locale.paymentStatus,
-                titleTextStyle: secondaryTextStyle(),
-                padding: EdgeInsets.zero,
-                trailing: Marquee(child: PriceWidget(price: 0, priceText: getBookingPaymentStatus(status: orderData.paymentStatus.validate()), color: orderData.paymentStatus.validate().toLowerCase() == SERVICE_PAYMENT_STATUS_PAID?greenColor:  wishListColor, size: 14)),
               ),
             ],
           ),
@@ -89,7 +90,8 @@ class OrderPaymentInfoComponent extends StatelessWidget {
               if (orderData.addressLine2.validate().trim().isNotEmpty) Marquee(child: Text(orderData.addressLine2.validate().capitalizeFirstLetter(), style: secondaryTextStyle())),
               10.height,
               if (orderData.city.validate().trim().isNotEmpty) Marquee(child: Text(orderData.city.validate().capitalizeFirstLetter(), style: secondaryTextStyle())).paddingBottom(10),
-              if (orderData.state.validate().trim().isNotEmpty) Marquee(child: Text('${orderData.state.validate().capitalizeFirstLetter()} - ${orderData.postalCode.validate()}', style: secondaryTextStyle())).paddingBottom(10),
+              if (orderData.state.validate().trim().isNotEmpty)
+                Marquee(child: Text('${orderData.state.validate().capitalizeFirstLetter()} - ${orderData.postalCode.validate()}', style: secondaryTextStyle())).paddingBottom(10),
               if (orderData.phoneNo.validate().trim().isNotEmpty)
                 Marquee(
                   child: RichTextWidget(

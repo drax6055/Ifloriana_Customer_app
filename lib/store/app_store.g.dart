@@ -192,6 +192,22 @@ mixin _$AppStore on _AppStore, Store {
     });
   }
 
+  late final _$termConditionsAtom =
+      Atom(name: '_AppStore.termConditions', context: context);
+
+  @override
+  String get termConditions {
+    _$termConditionsAtom.reportRead();
+    return super.termConditions;
+  }
+
+  @override
+  set termConditions(String value) {
+    _$termConditionsAtom.reportWrite(value, super.termConditions, () {
+      super.termConditions = value;
+    });
+  }
+
   late final _$privacyPolicyAtom =
       Atom(name: '_AppStore.privacyPolicy', context: context);
 
@@ -208,19 +224,18 @@ mixin _$AppStore on _AppStore, Store {
     });
   }
 
-  late final _$termConditionsAtom =
-      Atom(name: '_AppStore.termConditions', context: context);
+  late final _$fAQAtom = Atom(name: '_AppStore.fAQ', context: context);
 
   @override
-  String get termConditions {
-    _$termConditionsAtom.reportRead();
-    return super.termConditions;
+  String get fAQ {
+    _$fAQAtom.reportRead();
+    return super.fAQ;
   }
 
   @override
-  set termConditions(String value) {
-    _$termConditionsAtom.reportWrite(value, super.termConditions, () {
-      super.termConditions = value;
+  set fAQ(String value) {
+    _$fAQAtom.reportWrite(value, super.fAQ, () {
+      super.fAQ = value;
     });
   }
 
@@ -320,31 +335,6 @@ mixin _$AppStore on _AppStore, Store {
     });
   }
 
-  late final _$isUserAuthorizedAtom =
-      Atom(name: '_AppStore.isUserAuthorized', context: context);
-
-  @override
-  bool get isUserAuthorized {
-    _$isUserAuthorizedAtom.reportRead();
-    return super.isUserAuthorized;
-  }
-
-  @override
-  set isUserAuthorized(bool value) {
-    _$isUserAuthorizedAtom.reportWrite(value, super.isUserAuthorized, () {
-      super.isUserAuthorized = value;
-    });
-  }
-
-  late final _$setISUserAuthorizedAsyncAction =
-      AsyncAction('_AppStore.setISUserAuthorized', context: context);
-
-  @override
-  Future<void> setISUserAuthorized(bool val) {
-    return _$setISUserAuthorizedAsyncAction
-        .run(() => super.setISUserAuthorized(val));
-  }
-
   late final _$setBranchAddressAsyncAction =
       AsyncAction('_AppStore.setBranchAddress', context: context);
 
@@ -404,18 +394,25 @@ mixin _$AppStore on _AppStore, Store {
       AsyncAction('_AppStore.setTermConditions', context: context);
 
   @override
-  Future<void> setTermConditions(String val, {bool isInitializing = false}) {
-    return _$setTermConditionsAsyncAction.run(
-        () => super.setTermConditions(val, isInitializing: isInitializing));
+  Future<void> setTermConditions(String val) {
+    return _$setTermConditionsAsyncAction
+        .run(() => super.setTermConditions(val));
+  }
+
+  late final _$setFaqAsyncAction =
+      AsyncAction('_AppStore.setFaq', context: context);
+
+  @override
+  Future<void> setFaq(String val) {
+    return _$setFaqAsyncAction.run(() => super.setFaq(val));
   }
 
   late final _$setPrivacyPolicyAsyncAction =
       AsyncAction('_AppStore.setPrivacyPolicy', context: context);
 
   @override
-  Future<void> setPrivacyPolicy(String val, {bool isInitializing = false}) {
-    return _$setPrivacyPolicyAsyncAction
-        .run(() => super.setPrivacyPolicy(val, isInitializing: isInitializing));
+  Future<void> setPrivacyPolicy(String val) {
+    return _$setPrivacyPolicyAsyncAction.run(() => super.setPrivacyPolicy(val));
   }
 
   late final _$setCurrencySymbolAsyncAction =
@@ -536,17 +533,16 @@ stateId: ${stateId},
 cityId: ${cityId},
 currencyCountryId: ${currencyCountryId},
 currencySymbol: ${currencySymbol},
-privacyPolicy: ${privacyPolicy},
 termConditions: ${termConditions},
+privacyPolicy: ${privacyPolicy},
+fAQ: ${fAQ},
 inquiryEmail: ${inquiryEmail},
 helplineNumber: ${helplineNumber},
 branchId: ${branchId},
 branchAddress: ${branchAddress},
 branchName: ${branchName},
 branchContactNumber: ${branchContactNumber},
-isUserAuthorized: ${isUserAuthorized},
 isBranchSelected: ${isBranchSelected}
     ''';
   }
 }
-

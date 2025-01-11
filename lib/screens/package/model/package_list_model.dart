@@ -32,6 +32,7 @@ class PackageListModel {
 class PackageListData {
   int id;
   String name;
+  String packageImage;
   String description;
   int branchId;
   String branchName;
@@ -48,6 +49,7 @@ class PackageListData {
   PackageListData({
     this.id = -1,
     this.name = "",
+    this.packageImage = "",
     this.description = "",
     this.branchId = -1,
     this.branchName = "",
@@ -64,6 +66,7 @@ class PackageListData {
     return PackageListData(
       id: json['id'] is int ? json['id'] : -1,
       name: json['name'] is String ? json['name'] : "",
+      packageImage: json['package_image'] is String ? json['package_image'] : "",
       description: json['description'] is String ? json['description'] : "",
       branchId: json['branch_id'] is int ? json['branch_id'] : -1,
       branchName: json['branch_name'] is String ? json['branch_name'] : "",
@@ -84,6 +87,7 @@ class PackageListData {
     return {
       'id': id,
       'name': name,
+      'package_image': packageImage,
       'description': description,
       'branch_id': branchId,
       'branch_name': branchName,

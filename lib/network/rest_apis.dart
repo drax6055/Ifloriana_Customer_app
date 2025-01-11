@@ -25,14 +25,9 @@ Future<void> clearPreferences() async {
 }
 
 //region Configurations Api
-Future<ConfigurationResponse>  getAppConfigurations({bool isCurrentLocation = false, double? lat, double? long}) async {
+Future<ConfigurationResponse> getAppConfigurations({bool isCurrentLocation = false, double? lat, double? long}) async {
   try {
-    Map request = {};
-    if (appStore.isLoggedIn) request.putIfAbsent("user_id", () => userStore.userId);
-    appConfigurationResponseCached =
-        ConfigurationResponse.fromJson(await handleResponse(await buildHttpResponse('${APIEndPoints.appConfiguration}?is_authenticated=${appStore.isLoggedIn.getIntBool()}', request: request, method: HttpMethodType.POST)));
-
-    appStore.setISUserAuthorized(appConfigurationResponseCached!.isUserAuthorized);
+    appConfigurationResponseCached = ConfigurationResponse.fromJson(await handleResponse(await buildHttpResponse('${APIEndPoints.appConfiguration}?is_authenticated=1', method: HttpMethodType.POST)));
 
     if (appConfigurationResponseCached!.onesignalCustomerApp != null) {
       await setValue(ConfigurationKeyConst.ONESIGNAL_API_KEY, appConfigurationResponseCached!.onesignalCustomerApp!.onesignalAppId);
@@ -109,7 +104,15 @@ Future<ConfigurationResponse>  getAppConfigurations({bool isCurrentLocation = fa
     await setValue(ConfigurationKeyConst.INQUIRY_EMAIL, appConfigurationResponseCached!.inquiryEmail.validate(value: INQUIRY_SUPPORT_EMAIL));
     await setValue(ConfigurationKeyConst.SITE_DESCRIPTION, appConfigurationResponseCached!.siteDescription);
     await setValue(ConfigurationKeyConst.PRIMARY, appConfigurationResponseCached!.primaryColor);
-
+    appConfigurationResponseCached!.pages.forEach((element) async {
+      if (element.slug == 'privacy-policy') {
+        await setValue(ConfigurationKeyConst.PRIVACY_POLICY, element.description);
+      } else if (element.slug == 'term-condition') {
+        await setValue(ConfigurationKeyConst.TERMS_CONDITION, element.description);
+      } else if (element.slug == 'faq') {
+        await setValue(ConfigurationKeyConst.FAQ, element.description);
+      }
+    });
     await setValue(ConfigurationKeyConst.GOOGLE_MAPS_KEY, appConfigurationResponseCached!.googleMapsKey);
     await setValue(ConfigurationKeyConst.CUSTOMER_APP_PLAY_STORE, appConfigurationResponseCached!.customerAppPlayStore);
     await setValue(ConfigurationKeyConst.CUSTOMER_APP_APP_STORE, appConfigurationResponseCached!.customerAppAppStore);

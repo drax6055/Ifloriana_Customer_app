@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ifloriana/main.dart';
 import 'package:ifloriana/utils/constants.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../screens/booking/component/slot_item_component.dart';
@@ -13,6 +14,7 @@ class SlotWidget extends StatefulWidget {
   final String endTime;
   final DateTime selectedHorizontalDate;
   final bool isFromQuickBooking;
+  final String? selectedTime;
 
   SlotWidget({
     required this.slotDuration,
@@ -20,6 +22,7 @@ class SlotWidget extends StatefulWidget {
     required this.endTime,
     required this.selectedHorizontalDate,
     this.isFromQuickBooking = false,
+    this.selectedTime,
     Key? key,
   }) : super(key: key);
 
@@ -29,6 +32,7 @@ class SlotWidget extends StatefulWidget {
 
 class _SlotWidgetState extends State<SlotWidget> {
   Future<List<SlotData>>? future;
+
   Future<bool> checkIfSlotsFullForDate(DateTime date) async {
     List<SlotData> slots = await init();
     return !slots.any((slot) => slot.isAvailable);
@@ -70,13 +74,13 @@ class _SlotWidgetState extends State<SlotWidget> {
       int hour = startTime.hour;
       String timeSlot;
       if (hour >= 20 && hour < 24) {
-        timeSlot = "Night";
+        timeSlot = locale.night;
       } else if (hour >= 6 && hour < 12) {
-        timeSlot = "Morning";
+        timeSlot = locale.morning;
       } else if (hour >= 12 && hour < 17) {
-        timeSlot = "Afternoon";
+        timeSlot = locale.afternoon;
       } else {
-        timeSlot = "Evening";
+        timeSlot = locale.evening;
       }
       slotData.sessionText = timeSlot;
 
@@ -90,6 +94,17 @@ class _SlotWidgetState extends State<SlotWidget> {
   @override
   void setState(fn) {
     if (mounted) super.setState(fn);
+  }
+  String formatTimeWithoutLeadingZero(String time) {
+    try {
+      // Parse the input time in the 12-hour format
+      DateTime parsedTime = DateFormat("hh:mm a").parse(time);
+      // Return the time in a 12-hour format without a leading zero in the hour
+      return DateFormat("h:mm a").format(parsedTime);
+    } catch (e) {
+      print("Error formatting time: $e");
+      return time; // Return the original time if parsing fails
+    }
   }
 
   @override
@@ -134,8 +149,11 @@ class _SlotWidgetState extends State<SlotWidget> {
                       itemBuilder: (context, index) {
                         SlotData timeSlot = sessionSlots[index];
                         bool isSelected = selectedIndex == index && selectedSession == timeSlot.sessionText;
-
+                        String formattedSelectedTime = widget.selectedTime != null
+                            ? formatTimeWithoutLeadingZero(widget.selectedTime!)
+                            : "";
                         return SlotItemComponent(
+                          selectedTime: formattedSelectedTime,
                           timeSlot: timeSlot,
                           isSelected: isSelected,
                           selectedHorizontalDate: widget.selectedHorizontalDate,
@@ -154,7 +172,6 @@ class _SlotWidgetState extends State<SlotWidget> {
                                 if (widget.isFromQuickBooking) {
                                   finish(context, bookingRequestStore.time);
                                 }
-
                               }
                             } else {
                               toast(locale.youCannotBookPrevious);

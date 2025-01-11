@@ -42,11 +42,30 @@ class CommonRowTextWidget extends StatelessWidget {
             ).expand(flex: leftWidgetFlex),
             16.width,
             Align(
-              alignment: isRTL ? Alignment.topLeft: Alignment.topRight,
+              alignment: Alignment.topRight,
               child: Marquee(
                 child: isPrice
                     ? PriceWidget(price: trailingText.toDouble(), color: appStore.isDarkMode ? Colors.white : Colors.black, size: 14)
-                    : Text(trailingText.validate(), style: boldTextStyle(size: trailingTxtSize.validate(value: 12), color: trailingTextColor)),
+                    : Text(trailingText.validate(),
+                        style: boldTextStyle(
+                            size: trailingTxtSize.validate(value: 12),
+                            color: getBookingStatusKey(
+                              status: trailingText == "Check In"
+                                  ? "check_in"
+                                  : trailingText == "Check Out"
+                                  ? "checkout"
+                                  : trailingText,
+                            ).isNotEmpty
+                                ? getBookingStatusColor(
+                              status: trailingText == "Check In"
+                                  ? "check_in"
+                                  : trailingText == "Check Out"
+                                  ? "checkout"
+                                  : trailingText,
+                            )
+                                : trailingTextColor,
+                        )
+                ),
                 textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
               ),
             ).expand(flex: rightWidgetFlex),
@@ -84,7 +103,8 @@ class CommonRowTextWidget extends StatelessWidget {
                               style: primaryTextStyle(color: appTextSecondaryColor, size: 14),
                               children: [
                                 TextSpan(text: item.totalQty.toString(), style: boldTextStyle(size: 14)),
-                                if (item.remainingQty != null) TextSpan(text: "  (${locale.remainingQuantity} - ${item.remainingQty.toString()}/${item.totalQty.toString()})", style: secondaryTextStyle(size: 12)),
+                                if (item.remainingQty != null)
+                                  TextSpan(text: "  (${locale.remainingQuantity} - ${item.remainingQty.toString()}/${item.totalQty.toString()})", style: secondaryTextStyle(size: 12)),
                               ],
                             ),
                           ).paddingBottom(8)

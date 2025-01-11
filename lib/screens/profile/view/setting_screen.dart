@@ -80,6 +80,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   context,
                   negativeText: locale.cancel,
                   positiveText: locale.delete,
+                  primaryColor: context.primaryColor,
                   onAccept: (_) {
                     ifNotTester(() {
                       appStore.setLoading(true);

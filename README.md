@@ -1,4 +1,4 @@
-# IFloriana Customer App
+# Frezka Customer App
 
 
 

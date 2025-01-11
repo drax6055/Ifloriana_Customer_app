@@ -134,7 +134,7 @@ class _AddReviewDialogState extends State<AddReviewDialog> {
                     children: [
                       AppButton(
                         text: locale.cancel,
-                        textColor: isUpdate ? Colors.red : Colors.blue,
+                        textColor: isUpdate ? Colors.red : textPrimaryColorGlobal,
                         color: context.cardColor,
                         onTap: () {
                           finish(context);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ifloriana/components/cached_image_widget.dart';
+import 'package:ifloriana/screens/booking/component/show_services.dart';
 import 'package:ifloriana/screens/coupons/component/apply_coupon_component.dart';
 import 'package:ifloriana/utils/constants.dart';
 import 'package:ifloriana/utils/extensions/date_extensions.dart';
@@ -60,16 +61,16 @@ class _QuickBookingComponentState extends State<QuickBookingComponent> {
 
   num totalAmount = 0;
 
-  final List<ServiceListData> selectedService = [];
-  final List<int> selectedServiceIdList = [];
+  List<ServiceListData> selectedService = [];
+  List<int> selectedServiceIdList = [];
   List<EmployeeData> employeeList = [];
 
   bool isSelectedService = false;
   bool showEmployeeList = false;
-
+  bool isTotal = false;
   EmployeeData? selectedEmployee;
 
-  double containerHeight = 300;
+  // double containerHeight = 300;
 
   BookingRequestModel taxRequest = BookingRequestModel();
 
@@ -94,6 +95,7 @@ class _QuickBookingComponentState extends State<QuickBookingComponent> {
       totalAmount = 0;
       showEmployeeList = false;
       init();
+      isTotal = false;
       setState(() {});
     };
   }
@@ -111,7 +113,10 @@ class _QuickBookingComponentState extends State<QuickBookingComponent> {
   Widget serviceListWidget({required ServiceListData services}) {
     return CheckboxListTile(
       value: services.isServiceChecked,
-      title: Text('${services.name.validate()}', style: boldTextStyle(color: appStore.isDarkMode ? textPrimaryColorGlobal : secondaryColor, size: 14)),
+      title: Text(
+        '${services.name.validate()}',
+        style: boldTextStyle(color: appStore.isDarkMode ? textPrimaryColorGlobal : secondaryColor, size: 14),
+      ),
       contentPadding: EdgeInsets.zero,
       controlAffinity: ListTileControlAffinity.leading,
       secondary: PriceWidget(price: services.defaultPrice.validate(), color: context.primaryColor),
@@ -120,23 +125,12 @@ class _QuickBookingComponentState extends State<QuickBookingComponent> {
       dense: true,
       activeColor: appStore.isDarkMode ? primaryColor : secondaryColor,
       onChanged: (value) {
-        // Ensure only one service can be selected
+        // Allow multiple selections by adding/removing the service to/from the lists
         if (value == true) {
-          // Deselect other services
-          //TODO: Check This
-          for (var service in widget.serviceListData) {
-            if (service.id != services.id) {
-              service.isServiceChecked = false;
-              selectedService.remove(service);
-              selectedServiceIdList.remove(service.id.validate());
-            }
-          }
-          // Select the current service
           services.isServiceChecked = true;
           selectedService.add(services);
           selectedServiceIdList.add(services.id.validate());
         } else {
-          // Deselect the current service
           services.isServiceChecked = false;
           selectedService.remove(services);
           selectedServiceIdList.remove(services.id.validate());
@@ -295,6 +289,10 @@ class _QuickBookingComponentState extends State<QuickBookingComponent> {
     }
   }
 
+  void calculateTotalListAmount(List<ServiceListData> services) {
+    totalAmount = widget.serviceListData.where((element) => element.isServiceChecked).sumByDouble((p0) => p0.defaultPrice.validate());
+  }
+
   void calculateTotalAmount() {
     totalAmount = widget.serviceListData.where((element) => element.isServiceChecked).sumByDouble((p0) => p0.defaultPrice.validate());
   }
@@ -323,10 +321,10 @@ class _QuickBookingComponentState extends State<QuickBookingComponent> {
                           '(${taxRequest.totalTax.toPriceFormat()} ${locale.taxIncluded})',
                           style: secondaryTextStyle(),
                         ),
-                      )
+                      ).expand()
                     : Offstage(),
               ],
-            ),
+            ).expand(),
           ],
         ).paddingSymmetric(vertical: 16),
       );
@@ -473,6 +471,7 @@ class _QuickBookingComponentState extends State<QuickBookingComponent> {
                         endTime: endTime,
                         isFromQuickBooking: true,
                         slotDuration: snap.data!.slotDuration.validate(value: DEFAULT_SLOT_INTERVAL_DURATION),
+                        selectedTime: selectTimeCont.text,
                       ),
                     ],
                   ).expand(),
@@ -606,23 +605,80 @@ class _QuickBookingComponentState extends State<QuickBookingComponent> {
                     childrenPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                     children: [
                       SizedBox(
-                        height: containerHeight,
-                        child: SizeListener(
-                          onSizeChange: (p0) {
-                            containerHeight = p0.height;
-                          },
-                          child: ListView.separated(
-                            itemCount: widget.serviceListData.length,
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            physics: NeverScrollableScrollPhysics(),
-                            separatorBuilder: (_, i) {
-                              return DottedLine(lineThickness: 1, dashLength: 4, dashColor: context.dividerColor);
-                            },
-                            itemBuilder: (context, index) {
-                              return serviceListWidget(services: widget.serviceListData[index]);
-                            },
-                          ),
+                        child: Column(
+                          // crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            ListView.separated(
+                              itemCount: selectedService.length,
+                              shrinkWrap: true,
+                              padding: EdgeInsets.zero,
+                              physics: NeverScrollableScrollPhysics(),
+                              separatorBuilder: (_, i) {
+                                return DottedLine(lineThickness: 1, dashLength: 4, dashColor: context.dividerColor);
+                              },
+                              itemBuilder: (context, index) {
+                                return serviceListWidget(services: selectedService[index]);
+                              },
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                final result = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ShowServices(
+                                      serviceListData: widget.serviceListData,
+                                      selectedServiceIds: selectedServiceIdList.map((id) => id.toString()).toList(), // Pass IDs as strings
+                                      onSelectionChanged: (selectedServices, selectedServiceIds) {
+                                        setState(() {
+                                          selectedService.clear();
+                                          selectedServiceIdList.clear();
+
+                                          selectedService.addAll(selectedServices);
+                                          selectedServiceIdList.addAll(
+                                            selectedServiceIds.map((id) => int.parse(id)).toList(),
+                                          );
+                                          // Update taxRequest and recalculate tax
+                                          // taxRequest.selectedServiceList = selectedService;
+                                          // calculateTotalListAmount(selectedService);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                );
+
+                                if (result != null) {
+                                  setState(() {
+                                    totalAmount = result['totalAmount'] as num;
+                                    selectedService = result['selectedService'] as List<ServiceListData>;
+
+                                    selectedServiceIdList.clear();
+                                    selectedServiceIdList.addAll(
+                                      result['selectedServiceIds'].map<int>((id) => int.parse(id)).toList(),
+                                    );
+
+                                    // Update taxRequest and recalculate tax
+                                    taxRequest.selectedServiceList = selectedService;
+                                    taxRequest.taxPercentage = bookingRequestStore.taxPercentage;
+                                    bookingRequestStore.setPackagePurchase(false);
+                                    calculateTotalListAmount(selectedService);
+                                  });
+                                }
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: context.primaryColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  locale.viewAll,
+                                  style: TextStyle(color: context.primaryColor),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                       if (isSelectedService) 12.height,
@@ -675,7 +731,7 @@ class _QuickBookingComponentState extends State<QuickBookingComponent> {
                               itemCount: employeeList.length,
                               shrinkWrap: true,
                               padding: EdgeInsets.zero,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: employeeList.length >= 6 ? AlwaysScrollableScrollPhysics() : NeverScrollableScrollPhysics(),
                               separatorBuilder: (_, i) {
                                 return DottedLine(lineThickness: 1, dashLength: 4, dashColor: context.dividerColor);
                               },
@@ -725,7 +781,10 @@ class _QuickBookingComponentState extends State<QuickBookingComponent> {
 
             /// Apply coupon component
 
-            ApplyCouponComponent(taxRequest: taxRequest, callback: () => setState(() {})),
+            ApplyCouponComponent(
+              taxRequest: taxRequest,
+              callback: () => setState(() {}),
+            ),
 
             /// total Amount Widget
 
@@ -781,6 +840,7 @@ class _QuickBookingComponentState extends State<QuickBookingComponent> {
                               title: locale.confirmBooking,
                               subTitle: locale.doYouWantToConfirmBooking,
                               buttonText: locale.confirm,
+                              isBooking: true,
                               onTap: () async {
                                 finish(context);
                                 saveBooking();

@@ -91,14 +91,14 @@ class OrderSummaryScreen extends StatelessWidget {
                                   Marquee(
                                     child: Row(
                                       children: [
-                                        PriceWidget(
+                                        if (productData.isDiscount) PriceWidget(
                                           price: productData.productVariation!.taxIncludeProductPrice.validate(),
                                           isLineThroughEnabled: productData.isDiscount ? true : false,
                                           size: productData.isDiscount ? 12 : 16,
                                           color: productData.isDiscount ? textSecondaryColorGlobal : null,
                                         ),
-                                        4.width,
-                                        if (productData.isDiscount) PriceWidget(price: productData.productVariation!.discountedProductPrice.validate()),
+                                        if (productData.isDiscount) 4.width,
+                                        PriceWidget(price: productData.productVariation!.discountedProductPrice.validate()),
                                         if (productData.isDiscount) 8.width,
                                         if (productData.isDiscount) Text('${productData.discountValue}% ${locale.off}', style: primaryTextStyle(color: greenColor)),
                                       ],

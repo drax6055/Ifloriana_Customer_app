@@ -5,7 +5,6 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../../configs.dart';
 import '../../main.dart';
-import '../../utils/app_common.dart';
 import '../../utils/constants.dart';
 import '../payment_repo.dart';
 
@@ -66,14 +65,14 @@ class RazorPayService {
   }
 
   void razorPayCheckout() async {
-    var options = await{
+    var options = {
       'key': razorKeys,
       'amount': (totalAmount * 100).toInt(),
       'name': APP_NAME,
       'theme.color': '#A82D86',
       'description': APP_NAME,
       'image': 'https://razorpay.com/assets/razorpay-glyph.svg',
-      'currency': STRIPE_CURRENCY_CODE,
+      'currency': appStore.currencyCode,
       'prefill': {'contact': userStore.userContactNumber, 'email': userStore.userEmail},
       'external': {
         'wallets': ['paytm']

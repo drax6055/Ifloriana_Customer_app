@@ -1092,7 +1092,8 @@ class LanguageDe extends BaseLanguage {
   String get wishlist => 'Wunschzettel';
 
   @override
-  String get thereAreCurrentlyNoItemsInYourWishlist => 'Derzeit befinden sich keine Artikel auf Ihrer Wunschliste. Beginnen Sie mit dem Hinzufügen von Artikeln, die Ihnen gefallen, um sie für später aufzubewahren.';
+  String get thereAreCurrentlyNoItemsInYourWishlist =>
+      'Derzeit befinden sich keine Artikel auf Ihrer Wunschliste. Beginnen Sie mit dem Hinzufügen von Artikeln, die Ihnen gefallen, um sie für später aufzubewahren.';
 
   @override
   String get price => 'Preis';
@@ -1200,7 +1201,8 @@ class LanguageDe extends BaseLanguage {
   String get enterYourMsisdnHere => 'Geben Sie hier Ihre msisdn ein';
 
   @override
-  String get theTransactionIsStill => 'Die Transaktion wird noch verarbeitet und befindet sich in einem unklaren Zustand. Bitte führen Sie die Transaktionsabfrage durch, um den Transaktionsstatus abzurufen.';
+  String get theTransactionIsStill =>
+      'Die Transaktion wird noch verarbeitet und befindet sich in einem unklaren Zustand. Bitte führen Sie die Transaktionsabfrage durch, um den Transaktionsstatus abzurufen.';
 
   @override
   String get transactionIsSuccessful => 'Die Transaktion ist erfolgreich';
@@ -1488,5 +1490,68 @@ class LanguageDe extends BaseLanguage {
   String get theCouponAmountExceeds => 'Der Gutscheinbetrag übersteigt den Servicepreis';
 
   @override
-  String get appliedTaxes => 'Angewandte Steuern';
+  String get night => 'Nacht';
+
+  @override
+  String get morning => 'Morgen';
+
+  @override
+  String get afternoon => 'Nachmittag';
+
+  @override
+  String get evening => 'Abend';
+
+  @override
+  String get newPasswordWarning => 'Das neue Passwort sollte nicht mit dem alten Passwort identisch sein';
+
+  @override
+  String get note => 'Notiz';
+
+  @override
+  String get setAsPrimary => 'Als primär festlegen';
+
+  @override
+  String get orderInvoice => 'Rechnung bestellen';
+
+  @override
+  String get logisticPartner => 'Logistikpartner';
+
+  @override
+  String get logisticContactNumber => 'Logistik-Kontaktnummer';
+
+  @override
+  String get logisticAddress => 'Logistikadresse';
+
+  @override
+  String get wouldYouLikeToDownloadTheInvoice => 'Möchten Sie die Rechnung herunterladen?';
+
+  @override
+  String get download => 'Herunterladen';
+
+  @override
+  String get failedToAccessExternalStorage => 'Zugriff auf externen Speicher fehlgeschlagen';
+
+  @override
+  String get invalidResponseOrLinkNotFound => 'Ungültige Antwort oder Link nicht gefunden';
+
+  @override
+  String get failedToFetchInvoiceDetails => 'Rechnungsdetails konnten nicht abgerufen werden';
+
+  @override
+  String get PayWithUpiApps => 'Bezahlen Sie mit Upi-Apps';
+
+  @override
+  String get PaywithCard => 'Bezahlen Sie mit Karte';
+
+  @override
+  String get ContactUsForAnyQuestionsOnYourOrder => 'Kontaktieren Sie uns bei Fragen zu Ihrer Bestellung';
+
+  @override
+  String get ThePaymentTransactionDescription => 'Die Beschreibung der Zahlungstransaktion';
+
+  @override
+  String get FAQs => 'FAQs';
+
+  @override
+  String get noServicesAvailable => 'Keine Dienste verfügbar';
 }

@@ -15,7 +15,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../configs.dart';
 import 'common_base.dart';
 
-Future<bool> get isIqonicProduct  async => await getPackageName() == appPackageName;
+Future<bool> get isIqonicProduct async => await getPackageName() == appPackageName;
 
 // Currency position common
 bool get isCurrencyPositionLeft => getStringAsync(SharedPreferenceConst.CURRENCY_POSITION, defaultValue: CURRENCY_POSITION_LEFT) == CURRENCY_POSITION_LEFT;
@@ -124,6 +124,41 @@ PreferredSizeWidget commonAppBarWidget(BuildContext context, {String? title, dou
     ),
   );
 }
+PreferredSizeWidget commonAppBarServicesWidget(
+    BuildContext context, {
+      String? title,
+      double? appBarHeight,
+      bool? showLeadingIcon,
+      bool? roundCornerShape,
+      List<Widget>? actions,
+      VoidCallback? onLeadingIconPressed, // Add a callback for the leading icon
+    }) {
+  return PreferredSize(
+    preferredSize: Size.fromHeight(appBarHeight ?? 100.0),
+    child: AppBar(
+      title: Text(
+        title!,
+        style: boldTextStyle(color: whiteColor, size: APPBAR_TEXT_SIZE),
+      ),
+      systemOverlayStyle: SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
+      backgroundColor: primaryColor,
+      centerTitle: true,
+      leading: !showLeadingIcon.validate()
+          ? Offstage()
+          : IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: onLeadingIconPressed ?? () => Navigator.pop(context), // Use the callback or a default action
+      ),
+      elevation: 0,
+      actions: actions,
+      shape: roundCornerShape.validate()
+          ? const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+      )
+          : const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.zero)),
+    ),
+  );
+}
 
 double calculateDistance(double startLat, double startLong, double endLat, double endLong) {
   double distance = Geolocator.distanceBetween(
@@ -152,7 +187,6 @@ double calculateDistance(double startLat, double startLong, double endLat, doubl
     return (locale.open, Colors.green);
   }
 }
-
 
 void serviceCommonBottomSheet(BuildContext context, {required Widget child}) {
   showModalBottomSheet(

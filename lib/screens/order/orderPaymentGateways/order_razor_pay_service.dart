@@ -4,7 +4,6 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../../../configs.dart';
 import '../../../main.dart';
-import '../../../utils/app_common.dart';
 
 class OrderRazorPayService {
   static late Razorpay razorPay;
@@ -46,7 +45,7 @@ class OrderRazorPayService {
       'theme.color': '#A82D86',
       'description': APP_NAME,
       'image': 'https://razorpay.com/assets/razorpay-glyph.svg',
-      'currency': await isIqonicProduct ? STRIPE_CURRENCY_CODE : appStore.currencyCode,
+      'currency': appStore.currencyCode,
       'prefill': {'contact': productStore.contactNumber, 'email': productStore.customerEmail},
       'external': {
         'wallets': ['paytm']

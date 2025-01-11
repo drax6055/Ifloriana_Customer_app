@@ -28,7 +28,7 @@ class ConfigurationResponse {
   PaypalPay? paypalPay;
   FlutterWavePay? flutterWavePay;
   bool? status;
-  bool isUserAuthorized;
+  List<Pages> pages;
 
   ConfigurationResponse({
     this.appName,
@@ -60,7 +60,7 @@ class ConfigurationResponse {
     this.payStackPay,
     this.paypalPay,
     this.flutterWavePay,
-    this.isUserAuthorized = false,
+    this.pages = const <Pages>[],
   });
 
   factory ConfigurationResponse.fromJson(Map<String, dynamic> json) {
@@ -94,7 +94,9 @@ class ConfigurationResponse {
       isForceUpdate: json['isForceUpdate'],
       versionCode: json['version_code'],
       status: json["status"],
-      isUserAuthorized: json["is_user_authorized"] ?? false,
+      pages: json['pages'] is List
+          ? List<Pages>.from(json['pages'].map((x) => Pages.fromJson(x)))
+          : [],
     );
   }
 
@@ -127,7 +129,6 @@ class ConfigurationResponse {
     data['isForceUpdate'] = this.isForceUpdate;
     data['version_code'] = this.versionCode;
     data["status"] = this.status;
-    data["is_user_authorized"] = this.isUserAuthorized;
     if (this.currency != null) {
       data['currency'] = this.currency!.toJson();
     }
@@ -348,7 +349,13 @@ class PhonePayPay {
         phonePayIsInProduction: json["phonepay_is_status"],
       );
 
-  Map<String, dynamic> toJson() => {"phonepay_appid": phonePayAppId, "phonepay_merchentid": phonePayMerchantId, "phonepay_saltid": phonePaySaltId, "phonepay_saltkey": phonePaySaltKey, "phonepay_is_status": phonePayIsInProduction};
+  Map<String, dynamic> toJson() => {
+        "phonepay_appid": phonePayAppId,
+        "phonepay_merchentid": phonePayMerchantId,
+        "phonepay_saltid": phonePaySaltId,
+        "phonepay_saltkey": phonePaySaltKey,
+        "phonepay_is_status": phonePayIsInProduction
+      };
 }
 
 class RazorPay {
@@ -413,4 +420,31 @@ class StripePay {
         "stripe_secretkey": stripeSecretKey,
         "stripe_publickey": stripePublicKey,
       };
+}
+class Pages {
+  String slug;
+  String title;
+  String description;
+
+  Pages({
+    this.slug = "",
+    this.title = "",
+    this.description = "",
+  });
+
+  factory Pages.fromJson(Map<String, dynamic> json) {
+    return Pages(
+      slug: json['slug'] is String ? json['slug'] : "",
+      title: json['title'] is String ? json['title'] : "",
+      description: json['description'] is String ? json['description'] : "",
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'slug': slug,
+      'title': title,
+      'description': description,
+    };
+  }
 }

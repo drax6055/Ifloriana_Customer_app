@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../utils/constants.dart';
+
 const FONT_SIZE = "FONT_SIZE";
 
 class HtmlWidget extends StatelessWidget {
@@ -15,10 +17,26 @@ class HtmlWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(title.validate(), elevation: 0, backWidget: BackWidget(), color: context.primaryColor, textColor: Colors.white),
+      appBar: appBarWidget(
+        title.validate(),
+        elevation: 0,
+        backWidget: BackWidget(),
+        color: context.primaryColor,
+        textColor: Colors.white,
+        textSize: APP_BAR_TEXT_SIZE,
+      ),
+      backgroundColor: context.scaffoldBackgroundColor,
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Html(data: postContent!),
+        child: Html(
+          data: postContent!,
+          style: {
+            "body": Style(
+              fontSize: FontSize(16.0),
+              color: context.iconColor,
+            ),
+            "p": Style(backgroundColor: Colors.transparent),
+          },
+        ),
       ),
     );
   }

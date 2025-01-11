@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../main.dart';
@@ -33,6 +34,16 @@ class PriceWidget extends StatelessWidget {
     this.seperator,
     this.priceText,
   });
+// Helper method to format the price
+  String formatPrice(num price) {
+    // Customize the number format here
+    final formatter = NumberFormat.currency(
+      locale: 'en_US', // Change this for a different locale
+      decimalDigits: decimalPoint ?? getIntAsync(ConfigurationKeyConst.NO_OF_DECIMAL, defaultValue: DECIMAL_POINT),
+      symbol: '', // Removes the default currency symbol
+    );
+    return formatter.format(price.validate());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +52,15 @@ class PriceWidget extends StatelessWidget {
     TextStyle _textStyle({int? aSize}) {
       return isBoldText
           ? boldTextStyle(
-        size: aSize ?? size!.toInt(),
-        color: color != null ? color : context.primaryColor,
-        decoration: textDecoration(),
-      )
+              size: aSize ?? size!.toInt(),
+              color: color != null ? color : context.primaryColor,
+              decoration: textDecoration(),
+            )
           : secondaryTextStyle(
-        size: aSize ?? size!.toInt(),
-        color: color != null ? color : context.primaryColor,
-        decoration: textDecoration(),
-      );
+              size: aSize ?? size!.toInt(),
+              color: color != null ? color : context.primaryColor,
+              decoration: textDecoration(),
+            );
     }
 
     return Row(
@@ -61,7 +72,8 @@ class PriceWidget extends StatelessWidget {
           style: _textStyle(),
         ),
         Text(
-          priceText ?? "${leftCurrencyFormat()}${price.validate().toStringAsFixed(decimalPoint ?? getIntAsync(ConfigurationKeyConst.NO_OF_DECIMAL, defaultValue: DECIMAL_POINT)).formatNumberWithComma(seperator: getStringAsync(seperator ?? ConfigurationKeyConst.DECIMAL_SEPARATOR))}${rightCurrencyFormat()}",
+          priceText ??
+              "${leftCurrencyFormat()}${formatPrice(price)}${rightCurrencyFormat()}",
           style: _textStyle(),
         ),
       ],

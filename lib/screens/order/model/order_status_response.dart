@@ -2,16 +2,14 @@ class OrderStatusResponse {
   List<OrderStatusData>? data;
   String? message;
   bool? status;
-  String? link;
 
-  OrderStatusResponse({this.data, this.message, this.status,this.link});
+  OrderStatusResponse({this.data, this.message, this.status});
 
   factory OrderStatusResponse.fromJson(Map<String, dynamic> json) {
     return OrderStatusResponse(
       data: json['data'] != null ? (json['data'] as List).map((i) => OrderStatusData.fromJson(i)).toList() : null,
       message: json['message'],
       status: json['status'],
-      link: json['link'],
     );
   }
 
@@ -19,7 +17,6 @@ class OrderStatusResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['message'] = this.message;
     data['status'] = this.status;
-    data['link'] = this.link;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }

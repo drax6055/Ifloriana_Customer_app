@@ -17,18 +17,17 @@ class ProductDescriptionComponent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (productData.description.validate().isNotEmpty) ViewAllLabel(label: locale.description, isShowAll: false).paddingSymmetric(horizontal: 16),
-        if (productData.description.validate().isNotEmpty)
-          ReadMoreText(
-            parseHtmlString(productData.description),
-            trimLines: 3,
-            style: primaryTextStyle(size: 13),
-            colorClickableText: primaryColor,
-            trimMode: TrimMode.Line,
-            trimCollapsedText: " ...${locale.readMore}",
-            trimExpandedText: locale.readLess,
-            locale: Localizations.localeOf(context),
-          ).paddingSymmetric(horizontal: 16),
+        if (productData.shortDescription.validate().isNotEmpty)ViewAllLabel(label: locale.description, isShowAll: false).paddingSymmetric(horizontal: 16),
+        if (productData.shortDescription.validate().isNotEmpty)ReadMoreText(
+          parseHtmlString(productData.description),
+          trimLines: 3,
+          style: primaryTextStyle(size: 13),
+          colorClickableText: primaryColor,
+          trimMode: TrimMode.Line,
+          trimCollapsedText: " ...${locale.readMore}",
+          trimExpandedText: locale.readLess,
+          locale: Localizations.localeOf(context),
+        ).paddingSymmetric(horizontal: 16),
       ],
     );
   }

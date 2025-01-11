@@ -17,7 +17,7 @@ class ProductItemComponent extends StatefulWidget {
   final bool isFromProductDetail;
   final VoidCallback? onWishlistUpdated;
 
-  ProductItemComponent({required this.productListData, this.isFromWishList = false, this.isFromProductDetail = false, this.onWishlistUpdated});
+  ProductItemComponent({required this.productListData, this.isFromWishList = false, this.isFromProductDetail = false,this.onWishlistUpdated});
 
   @override
   State<ProductItemComponent> createState() => _ProductItemComponentState();
@@ -101,11 +101,11 @@ class _ProductItemComponentState extends State<ProductItemComponent> {
                     ).visible(widget.productListData.stockQty == 0),
                     Container(
                       padding: EdgeInsets.all(8),
-                      decoration: boxDecorationWithShadow(boxShape: BoxShape.circle, backgroundColor: context.cardColor.withOpacity(0.86)),
+                      decoration: boxDecorationWithShadow(boxShape: BoxShape.circle, backgroundColor: context.cardColor),
                       child: widget.productListData.inWishlist == 1 ? ic_fill_heart.iconImage(color: wishListColor, size: 16) : ic_heart.iconImage(color: textSecondaryColorGlobal, size: 16),
                     ).onTap(() {
                       doIfLoggedIn(context, () async {
-                        if (!appStore.isLoading) onTapFavourite();
+                        onTapFavourite();
                       });
                     }, highlightColor: Colors.transparent, splashColor: Colors.transparent, hoverColor: Colors.transparent),
                   ],

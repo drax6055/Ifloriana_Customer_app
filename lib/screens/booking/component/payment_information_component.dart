@@ -128,7 +128,7 @@ class _PaymentInformationComponentState extends State<PaymentInformationComponen
                 ).paddingBottom(10),
 
               /// Total Amount
-              SettingItemWidget(
+                SettingItemWidget(
                 title: subtotal == 0 ? locale.total + " ( ${locale.reused} )" : locale.total,
                 titleTextStyle: secondaryTextStyle(),
                 padding: EdgeInsets.zero,

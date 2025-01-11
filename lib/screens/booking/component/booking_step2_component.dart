@@ -33,16 +33,12 @@ class BookingStep2Component extends StatefulWidget {
   final bool isReschedule;
   final int? bookingId;
   final int? employeeId;
+  final String? selectedDate;
+  final String? selectedTime;
   final List<ServiceListData>? serviceList;
 
-  BookingStep2Component({
-    this.isFromBookingInfoDetail = false,
-    this.bookingId,
-    this.serviceList,
-    this.employeeId,
-    this.isReschedule = false,
 
-  });
+  BookingStep2Component({this.isFromBookingInfoDetail = false, this.bookingId, this.serviceList, this.employeeId, this.isReschedule = false,this.selectedDate,this.selectedTime});
 
   @override
   _BookingStep2ComponentState createState() => _BookingStep2ComponentState();
@@ -64,18 +60,20 @@ class _BookingStep2ComponentState extends State<BookingStep2Component> {
   String startTime = DEFAULT_SLOT_INTERVAL_DURATION;
   String endTime = DEFAULT_SLOT_INTERVAL_DURATION;
 
-
   @override
   void initState() {
     super.initState();
     init();
+
+    DateFormat inputFormat = DateFormat('dd/MM/yyyy');
+
+    selectedHorizontalDate = widget.selectedDate != null &&
+        inputFormat.parse(widget.selectedDate!).isAfter(DateTime.now())
+        ? inputFormat.parse(widget.selectedDate!)
+        : DateTime.now();
     bookingRequestStore.setDateInRequest(selectedHorizontalDate.setFormattedDate(DateFormatConst.DATE_FORMAT_5).toString());
     bookingRequestStore.setCouponApplied(false);
-    if (widget.isFromBookingInfoDetail) {
-      bookingRequestStore.time = "";
-    }
   }
-
 
   void init() async {
     future = getBranchConfiguration(appStore.branchId);
@@ -214,9 +212,6 @@ class _BookingStep2ComponentState extends State<BookingStep2Component> {
                               dayFontSize: 14,
                               weekDayFontSize: 14,
                               onValueSelected: (date) {
-
-
-
                                 _datePickerController.scrollTo(selectedHorizontalDate);
                                 selectedHorizontalDate = date;
                                 log(selectedHorizontalDate);
@@ -230,14 +225,16 @@ class _BookingStep2ComponentState extends State<BookingStep2Component> {
 
                                 setState(() {});
                               },
-                            ).paddingSymmetric(vertical: 16),
-                          ],
-                        ),
+                            ).paddingSymmetric(vertical: 16),],
+
+
+                  ),
                       ),
                       16.height,
                       ViewAllLabel(label: locale.availableSlots, isShowAll: false),
                       8.height,
                       SlotWidget(
+                        selectedTime:widget.selectedTime,
                         key: keyForSlotWidget,
                         selectedHorizontalDate: selectedHorizontalDate,
                         startTime: startTime,
@@ -285,69 +282,66 @@ class _BookingStep2ComponentState extends State<BookingStep2Component> {
           ).visible(!widget.isFromBookingInfoDetail),
         ],
       ),
-      floatingActionButton: Observer(builder: (context) {
-        return FloatingActionButton.extended(
-          backgroundColor: secondaryColor,
-          onPressed: () {
-            showConfirmDialogCustom(
-              context,
-              title: locale.bookingTimeSlotChangeMessage,
-              positiveText: locale.yes,
-              negativeText: locale.no,
-              onAccept: (_) {
-                List<ServiceListData> selectedService = [];
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: secondaryColor,
+        onPressed: () {
+          showConfirmDialogCustom(
+            context,
+            title: locale.bookingTimeSlotChangeMessage,
+            positiveText: locale.yes,
+            negativeText: locale.no,
+            onAccept: (_) {
+              List<ServiceListData> selectedService = [];
 
-                bookingRequestStore.setEmployeeIdInRequest(widget.employeeId.validate());
-                bookingRequestStore.setDateInRequest(selectedHorizontalDate.setFormattedDate(DateFormatConst.DATE_FORMAT_5).toString());
+              bookingRequestStore.setEmployeeIdInRequest(widget.employeeId.validate());
+              bookingRequestStore.setDateInRequest(selectedHorizontalDate.setFormattedDate(DateFormatConst.DATE_FORMAT_5).toString());
 
-                widget.serviceList.validate().forEachIndexed((element, index) {
-                  selectedService.add(widget.serviceList.validate()[index]);
-                });
+              widget.serviceList.validate().forEachIndexed((element, index) {
+                selectedService.add(widget.serviceList.validate()[index]);
+              });
 
-                bookingRequestStore.setSelectedServiceListInRequest(selectedService);
+              bookingRequestStore.setSelectedServiceListInRequest(selectedService);
 
-                String tempDate = bookingRequestStore.date.validate();
-                String tempTime = bookingRequestStore.time.validate();
+              String tempDate = bookingRequestStore.date.validate();
+              String tempTime = bookingRequestStore.time.validate();
 
-                String dateString = tempDate + " " + tempTime;
+              String dateString = tempDate + " " + tempTime;
 
-                DateTime initialDateTime = DateTime.parse(dateString);
+              DateTime initialDateTime = DateTime.parse(dateString);
 
-                String updatedDateTime = formatDate(initialDateTime.toString(), format: DateFormatConst.NEW_FORMAT);
+              String updatedDateTime = formatDate(initialDateTime.toString(), format: DateFormatConst.NEW_FORMAT);
 
-                bookingRequestStore.selectedServiceList.validate().forEachIndexed((element, index) {
-                  if (index == 0) {
-                    element.startDateTime = formatDate(initialDateTime.toString(), format: DateFormatConst.NEW_FORMAT);
-                    element.previousTime = initialDateTime;
-                  } else {
-                    ServiceListData previousData = bookingRequestStore.selectedServiceList.validate()[index - 1];
-                    element.startDateTime = formatDate(previousData.previousTime!.add(previousData.durationMin.minutes).toString(), format: DateFormatConst.NEW_FORMAT);
-                    element.previousTime = previousData.previousTime!.add(previousData.durationMin.minutes);
-                  }
-                });
+              bookingRequestStore.selectedServiceList.validate().forEachIndexed((element, index) {
+                if (index == 0) {
+                  element.startDateTime = formatDate(initialDateTime.toString(), format: DateFormatConst.NEW_FORMAT);
+                  element.previousTime = initialDateTime;
+                } else {
+                  ServiceListData previousData = bookingRequestStore.selectedServiceList.validate()[index - 1];
+                  element.startDateTime = formatDate(previousData.previousTime!.add(previousData.durationMin.minutes).toString(), format: DateFormatConst.NEW_FORMAT);
+                  element.previousTime = previousData.previousTime!.add(previousData.durationMin.minutes);
+                }
+              });
 
-                appStore.setLoading(true);
+              appStore.setLoading(true);
 
-                bookingUpdate(bookingRequestStore.toJson(dateTime: updatedDateTime, bookingId: widget.bookingId, bookingStatus: BookingStatusConst.PENDING, isUpdate: true)).then((value) {
-                  appStore.setLoading(false);
+              bookingUpdate(bookingRequestStore.toJson(dateTime: updatedDateTime, bookingId: widget.bookingId, bookingStatus: BookingStatusConst.PENDING, isUpdate: true)).then((value) {
+                appStore.setLoading(false);
 
-                  onBookingDetailUpdate.call();
-                  onBookingListUpdate.call('');
-                  finish(context);
-                  toast(locale.bookingSuccessfullyUpdateMessage);
-                }).catchError((e) {
-                  appStore.setLoading(false);
-                  toast(e.toString());
-                });
-              },
-              primaryColor: context.primaryColor,
-            );
-          },
-          label: Text(locale.update, style: boldTextStyle(color: Colors.white)),
-        ).visible(widget.isFromBookingInfoDetail && bookingRequestStore.time.isNotEmpty);
-      }),
+                onBookingDetailUpdate.call();
+                onBookingListUpdate.call('');
+                finish(context);
+                toast(locale.bookingSuccessfullyUpdateMessage);
+              }).catchError((e) {
+                appStore.setLoading(false);
+                toast(e.toString());
+              });
+            },
+            primaryColor: context.primaryColor,
+          );
+        },
+        label: Text(locale.update, style: boldTextStyle(color: Colors.white)),
+      ).visible(widget.isFromBookingInfoDetail),
     );
   }
 }
-
 

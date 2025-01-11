@@ -361,7 +361,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   Widget setAsPrimaryWidget() {
     return CheckboxListTile(
       value: isPrimary,
-      title: Text('Set as primary',
+      title: Text(locale.setAsPrimary,
           style: boldTextStyle(
               color:
                   appStore.isDarkMode ? textPrimaryColorGlobal : secondaryColor,

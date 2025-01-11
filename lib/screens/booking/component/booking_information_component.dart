@@ -32,9 +32,11 @@ class _BookingInformationComponentState extends State<BookingInformationComponen
           label: locale.bookingInformation,
           trailingText: locale.change,
           trailingTextColor: lightPrimaryColor,
-          isShowAll: widget.bookingStatus == BookingStatusConst.PENDING ? true : false,
+          isShowAll: widget.booking.statusLabel == BookingStatusConst.PENDING[0].toUpperCase() + BookingStatusConst.PENDING.substring(1),
           onTap: () {
             BookingStep2Component(
+              selectedDate: widget.booking.bookingDate,
+              selectedTime: widget.booking.bookingTime,
               isFromBookingInfoDetail: true,
               bookingId: widget.booking.id,
               employeeId: widget.booking.employeeId,

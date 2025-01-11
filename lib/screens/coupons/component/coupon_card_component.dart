@@ -8,13 +8,13 @@ import 'package:nb_utils/nb_utils.dart';
 
 class CouponCardComponent extends StatelessWidget {
   final String? couponImage;
-  final String? couponTitle;
+  final String ? couponTitle;
   final String? couponCode;
   final String? expiryDate;
   final String? couponDiscount;
   final bool? isFixDiscount;
   final String? discountAmount;
-  const CouponCardComponent({super.key, this.isFixDiscount, this.discountAmount, this.expiryDate, this.couponDiscount, this.couponCode, this.couponImage, this.couponTitle});
+  const CouponCardComponent({super.key,this.isFixDiscount,this.discountAmount,this.expiryDate,this.couponDiscount,this.couponCode,this.couponImage,this.couponTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class CouponCardComponent extends StatelessWidget {
             children: [
               RichText(
                 text: TextSpan(
-                  text: isFixDiscount == true ? "${leftCurrencyFormat()}$discountAmount${rightCurrencyFormat()}" : "$couponDiscount% Off",
+                  text: isFixDiscount==true?"${leftCurrencyFormat()}$discountAmount${rightCurrencyFormat()}":"$couponDiscount% Off",
                   style: primaryTextStyle(color: context.primaryColor),
                   children: [
                     TextSpan(text: " on $couponTitle", style: primaryTextStyle()),
@@ -45,16 +45,16 @@ class CouponCardComponent extends StatelessWidget {
                 maxLines: 2,
               ),
               8.height,
-              RichText(
-                text: TextSpan(
-                  text: "${locale.valid}: ",
-                  style: secondaryTextStyle(),
-                  children: [
-                    TextSpan(text: expiryDate, style: secondaryTextStyle()),
-                  ],
+                RichText(
+                  text: TextSpan(
+                    text: "${locale.valid}: ",
+                    style: secondaryTextStyle(),
+                    children: [
+                      TextSpan(text: expiryDate, style: secondaryTextStyle(color: Colors.black)),
+                    ],
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.ellipsis,
-              ),
               8.height,
               DottedBorderWidget(
                 radius: defaultRadius,
@@ -68,12 +68,12 @@ class CouponCardComponent extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        couponCode.validate(),
+                     couponCode.validate(),
                         style: boldTextStyle(),
                       ),
                       8.width,
                       Icon(Icons.copy_rounded, size: 22).onTap(() async {
-                        await Clipboard.setData(ClipboardData(text: couponCode.validate()));
+                        await Clipboard.setData(ClipboardData(text:couponCode.validate()));
                         toast(locale.couponCodeCopied);
                       })
                     ],

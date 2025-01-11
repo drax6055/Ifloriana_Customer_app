@@ -1488,5 +1488,68 @@ class LanguageAr extends BaseLanguage {
   String get theCouponAmountExceeds => 'قيمة الكوبون تتجاوز سعر الخدمة';
 
   @override
-  String get appliedTaxes => 'الضرائب التطبيقية';
+  String get night => 'ليلة';
+
+  @override
+  String get morning => 'صباح';
+
+  @override
+  String get afternoon => 'بعد الظهر';
+
+  @override
+  String get evening => 'مساء';
+
+  @override
+  String get newPasswordWarning => 'يجب ألا تكون كلمة المرور الجديدة هي نفس كلمة المرور القديمة';
+
+  @override
+  String get note => 'ملحوظة';
+
+  @override
+  String get setAsPrimary => 'تعيين كأساسي';
+
+  @override
+  String get orderInvoice => 'فاتورة الطلب';
+
+  @override
+  String get logisticPartner => 'الشريك اللوجستي';
+
+  @override
+  String get logisticContactNumber => 'رقم الاتصال اللوجستي';
+
+  @override
+  String get logisticAddress => 'العنوان اللوجستي';
+
+  @override
+  String get wouldYouLikeToDownloadTheInvoice => 'هل ترغب في تنزيل الفاتورة؟';
+
+  @override
+  String get download => 'تحميل';
+
+  @override
+  String get failedToAccessExternalStorage => 'فشل في الوصول إلى وحدة التخزين الخارجية';
+
+  @override
+  String get invalidResponseOrLinkNotFound => 'استجابة غير صالحة أو لم يتم العثور على الرابط';
+
+  @override
+  String get failedToFetchInvoiceDetails => 'فشل جلب تفاصيل الفاتورة';
+
+  @override
+  String get PayWithUpiApps => 'الدفع باستخدام تطبيقات Upi';
+
+  @override
+  String get PaywithCard => 'الدفع بالبطاقة';
+
+  @override
+  String get ContactUsForAnyQuestionsOnYourOrder => 'اتصل بنا بخصوص أي أسئلة بخصوص طلبك';
+
+  @override
+  String get ThePaymentTransactionDescription => 'وصف معاملة الدفع';
+
+  @override
+  String get FAQs => 'الأسئلة الشائعة';
+
+  @override
+  String get noServicesAvailable => 'لا توجد خدمات متاحة';
 }

@@ -1488,5 +1488,68 @@ class LanguageEs extends BaseLanguage {
   String get theCouponAmountExceeds => 'El monto del cupón excede el precio del servicio.';
 
   @override
-  String get appliedTaxes => 'Impuestos aplicados';
+  String get night => 'Noche';
+
+  @override
+  String get morning => 'Mañana';
+
+  @override
+  String get afternoon => 'Tarde';
+
+  @override
+  String get evening => 'Noche';
+
+  @override
+  String get newPasswordWarning => 'La nueva contraseña no debe ser la misma que la antigua';
+
+  @override
+  String get note => 'Nota';
+
+  @override
+  String get setAsPrimary => 'Establecer como principal';
+
+  @override
+  String get orderInvoice => 'Factura de pedido';
+
+  @override
+  String get logisticPartner => 'Socio logístico';
+
+  @override
+  String get logisticContactNumber => 'Número de contacto logístico';
+
+  @override
+  String get logisticAddress => 'Dirección Logística';
+
+  @override
+  String get wouldYouLikeToDownloadTheInvoice => '¿Quieres descargar la factura?';
+
+  @override
+  String get download => 'Descargar';
+
+  @override
+  String get failedToAccessExternalStorage => 'No se pudo acceder al almacenamiento externo';
+
+  @override
+  String get invalidResponseOrLinkNotFound => 'Respuesta no válida o enlace no encontrado';
+
+  @override
+  String get failedToFetchInvoiceDetails => 'No se pudieron recuperar los detalles de la factura';
+
+  @override
+  String get PayWithUpiApps => 'Pagar con aplicaciones Upi';
+
+  @override
+  String get PaywithCard => 'Pagar con Tarjeta';
+
+  @override
+  String get ContactUsForAnyQuestionsOnYourOrder => 'Contáctanos para cualquier duda sobre tu pedido';
+
+  @override
+  String get ThePaymentTransactionDescription => 'La descripción de la transacción de pago.';
+
+  @override
+  String get FAQs => 'Preguntas frecuentes';
+
+  @override
+  String get noServicesAvailable => 'No hay servicios disponibles';
 }

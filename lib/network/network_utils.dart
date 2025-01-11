@@ -84,42 +84,39 @@ Future<Response> buildHttpResponse(
     Uri url = buildBaseUrl(endPoint);
 
     Response response;
-    try {
-      if (method == HttpMethodType.POST) {
-        // log('Request: ${jsonEncode(request)}');
-        response = await http.post(url, body: jsonEncode(request), headers: headers).timeout(Duration(seconds: 20));
-      } else if (method == HttpMethodType.DELETE) {
-        response = await delete(url, headers: headers).timeout(Duration(seconds: 20));
-      } else if (method == HttpMethodType.PUT) {
-        response = await put(url, body: jsonEncode(request), headers: headers).timeout(Duration(seconds: 20));
-      } else {
-        response = await get(url, headers: headers).timeout(Duration(seconds: 20));
-      }
 
-      // log('Response (${method.name}) ${response.statusCode}: ${response.body.trim()}');
+    if (method == HttpMethodType.POST) {
+      // log('Request: ${jsonEncode(request)}');
+      response = await http.post(url, body: jsonEncode(request), headers: headers).timeout(Duration(seconds: 20));
+    } else if (method == HttpMethodType.DELETE) {
+      response = await delete(url, headers: headers).timeout(Duration(seconds: 20));
+    } else if (method == HttpMethodType.PUT) {
+      response = await put(url, body: jsonEncode(request), headers: headers).timeout(Duration(seconds: 20));
+    } else {
+      response = await get(url, headers: headers).timeout(Duration(seconds: 20));
+    }
 
-      apiPrint(
-        url: url.toString(),
-        endPoint: endPoint,
-        headers: jsonEncode(headers),
-        hasRequest: method == HttpMethodType.POST || method == HttpMethodType.PUT,
-        request: jsonEncode(request),
-        statusCode: response.statusCode,
-        responseBody: response.body.trim(),
-        methodtype: method.name,
-      );
+    // log('Response (${method.name}) ${response.statusCode}: ${response.body.trim()}');
 
-      if (appStore.isLoggedIn && response.statusCode == 401) {
-        return await reGenerateToken().then((value) async {
-          return await buildHttpResponse(endPoint, method: method, request: request, extraKeys: extraKeys);
-        }).catchError((e) {
-          throw errorSomethingWentWrong;
-        });
-      } else {
-        return response;
-      }
-    } on Exception {
-      throw errorInternetNotAvailable;
+    apiPrint(
+      url: url.toString(),
+      endPoint: endPoint,
+      headers: jsonEncode(headers),
+      hasRequest: method == HttpMethodType.POST || method == HttpMethodType.PUT,
+      request: jsonEncode(request),
+      statusCode: response.statusCode,
+      responseBody: response.body.trim(),
+      methodtype: method.name,
+    );
+
+    if (appStore.isLoggedIn && response.statusCode == 401) {
+      return await reGenerateToken().then((value) async {
+        return await buildHttpResponse(endPoint, method: method, request: request, extraKeys: extraKeys);
+      }).catchError((e) {
+        throw errorSomethingWentWrong;
+      });
+    } else {
+      return response;
     }
   } else {
     throw errorInternetNotAvailable;

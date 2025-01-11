@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ifloriana/components/cached_image_widget.dart';
 import 'package:ifloriana/components/price_widget.dart';
-import 'package:ifloriana/screens/booking/model/booking_detail_response.dart';
-import 'package:ifloriana/utils/app_common.dart';
 import 'package:ifloriana/utils/colors.dart';
 import 'package:ifloriana/utils/extensions/num_extensions.dart';
 import 'package:ifloriana/utils/images.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../main.dart';
-import '../utils/constants.dart';
 
 class CommonBottomPriceWidget extends StatefulWidget {
   final String? title;
@@ -42,7 +39,9 @@ class _CommonBottomPriceWidgetState extends State<CommonBottomPriceWidget> {
                     transitionBuilder: (Widget child, Animation<double> animation) {
                       return SizeTransition(child: child, sizeFactor: animation);
                     },
-                    child: isSelect ? viewDetail(context).paddingBottom(16) : SizedBox.shrink(),
+                    child: isSelect
+                        ? viewDetail(context).paddingBottom(16)
+                        : SizedBox.shrink(),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,24 +53,10 @@ class _CommonBottomPriceWidgetState extends State<CommonBottomPriceWidget> {
                             Marquee(child: Text(widget.title.validate(), style: boldTextStyle(size: 14, color: Colors.white))),
                             8.height,
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 PriceWidget(price: widget.price.validate(), color: Colors.white),
-                                bookingRequestStore.totalTax != 0 ? 8.width : Offstage(),
-                                IconButton(
-                                  onPressed: () {
-                                   serviceCommonBottomSheet(context, child: taxDetailsWidget(context: context));
-                                  },
-                                  iconSize: 16.0,
-                                  color: white,
-                                  padding: EdgeInsets.zero,
-                                  constraints: const BoxConstraints(),
-                                  style: const ButtonStyle(
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  ),
-                                  icon: const Icon(Icons.info_outline_rounded),
-                                ),
-                                bookingRequestStore.totalTax != 0 ? 4.width : Offstage(),
+                                8.width,
                                 bookingRequestStore.totalTax != 0
                                     ? Marquee(
                                         child: Text(
@@ -123,6 +108,7 @@ class _CommonBottomPriceWidgetState extends State<CommonBottomPriceWidget> {
           })
         : Observer(builder: (context) {
             return Container(
+
               padding: EdgeInsets.all(16),
               decoration: boxDecorationWithRoundedCorners(backgroundColor: secondaryColor, borderRadius: radiusOnly(topLeft: defaultRadius, topRight: defaultRadius)),
               child: Column(
@@ -176,21 +162,7 @@ class _CommonBottomPriceWidgetState extends State<CommonBottomPriceWidget> {
                                 Text('${locale.total} :- ', style: secondaryTextStyle(size: 14, color: Colors.white)),
                                 8.width,
                                 PriceWidget(price: bookingRequestStore.calculateTotalAmountWithCouponAndTaxAndTip.validate(), color: Colors.white, size: 16),
-                                bookingRequestStore.totalTax != 0 ? 8.width : Offstage(),
-                                IconButton(
-                                  onPressed: () {
-                                    serviceCommonBottomSheet(context, child: taxDetailsWidget(context: context));
-                                  },
-                                  iconSize: 16.0,
-                                  color: white,
-                                  padding: EdgeInsets.zero,
-                                  constraints: const BoxConstraints(),
-                                  style: const ButtonStyle(
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  ),
-                                  icon: const Icon(Icons.info_outline_rounded),
-                                ),
-                                bookingRequestStore.totalTax != 0 ? 4.width : Offstage(),
+                                8.width,
                                 bookingRequestStore.totalTax != 0
                                     ? Marquee(
                                         child: Text(
@@ -286,45 +258,4 @@ class _CommonBottomPriceWidgetState extends State<CommonBottomPriceWidget> {
       );
     });
   }
-}
-
-//Tax Details Bottom Sheet
-Widget taxDetailsWidget({required BuildContext context}) {
-  return Container(
-    padding: EdgeInsets.all(16),
-    width: context.width(),
-    decoration: boxDecorationWithRoundedCorners(backgroundColor: secondaryColor, borderRadius: radiusOnly(topLeft: defaultRadius, topRight: defaultRadius)),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(locale.appliedTaxes, style: boldTextStyle(color: white)),
-        12.height,
-        ListView.builder(
-          shrinkWrap: true,
-          physics: AlwaysScrollableScrollPhysics(),
-          itemCount: bookingRequestStore.taxPercentage.length,
-          itemBuilder: (context, index) {
-            TaxPercentage taxDet = bookingRequestStore.taxPercentage[index];
-            num taxAmt = 0.0;
-            if(taxDet.type ==TaxType.PERCENT){
-             taxAmt =num.parse(((bookingRequestStore.selectedServiceTotalAmount * taxDet.percent.validate()) / 100).toString()); 
-            }else{
-              taxAmt = taxDet.taxAmount ?? 0.0;
-            }
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(taxDet.name.toString(), style: secondaryTextStyle(color:  Colors.white70)),
-                
-                PriceWidget(price: taxAmt.validate(), color: white, size: 12),
-              ],
-            ).paddingSymmetric(vertical: 4);
-          },
-        ),
-      ],
-    ),
-  );
 }

@@ -3,7 +3,6 @@ import 'package:ifloriana/components/app_scaffold.dart';
 import 'package:ifloriana/utils/extensions/string_extensions.dart';
 import 'package:ifloriana/utils/images.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:country_picker/country_picker.dart';
 
 import '../../../main.dart';
 import '../../../utils/app_common.dart';
@@ -29,27 +28,9 @@ class _AdditionalDetailScreenState extends State<AdditionalDetailScreen> {
   FocusNode mobileFocus = FocusNode();
   FocusNode alternateFocus = FocusNode();
 
-  Country _defaultCountry = Country(
-    phoneCode: "91",
-    countryCode: "IN",
-    e164Sc: 91,
-    geographic: true,
-    level: 1,
-    name: "India",
-    example: "9123456789",
-    displayName: "India (IN) [+91]",
-    displayNameNoCountryCode: "India (IN)",
-    e164Key: "91-IN-0",
-  );
-
-  late Country selectedCountry;
-  late Country alternateSelectedCountry;
-
   @override
   void initState() {
     super.initState();
-    selectedCountry = _defaultCountry;
-    alternateSelectedCountry = _defaultCountry;
     init();
   }
 
@@ -103,21 +84,21 @@ class _AdditionalDetailScreenState extends State<AdditionalDetailScreen> {
                       suffix: ic_message.iconImage(fit: BoxFit.contain, size: 14).paddingAll(16),
                     ),
                     16.height,
-                    _buildPhoneField(
+                    AppTextField(
+                      textFieldType: TextFieldType.PHONE,
                       controller: mobileCont,
                       focus: mobileFocus,
-                      label: locale.contactNumber,
-                      country: selectedCountry,
-                      onCountryChanged: (country) => setState(() => selectedCountry = country),
+                      maxLength: 15,
+                      decoration: inputDecoration(context, label: locale.contactNumber),
                     ),
                     16.height,
-                    _buildPhoneField(
+                    AppTextField(
+                      textFieldType: TextFieldType.PHONE,
                       controller: alternateMobileCont,
                       focus: alternateFocus,
-                      label: locale.alternateContactNumber,
-                      country: alternateSelectedCountry,
-                      onCountryChanged: (country) => setState(() => alternateSelectedCountry = country),
+                      maxLength: 15,
                       isValidationRequired: false,
+                      decoration: inputDecoration(context, label: locale.alternateContactNumber),
                     ),
                   ],
                 ),
@@ -138,10 +119,8 @@ class _AdditionalDetailScreenState extends State<AdditionalDetailScreen> {
 
                 productStore.setCustomerFullName(fullNameCont.text);
                 productStore.setCustomerEmail(emailCont.text);
-                productStore.setCustomerContactNumber(
-                    '+${selectedCountry.phoneCode} ${mobileCont.text}');
-                productStore.setCustomerAlternateContactNumber(
-                    '+${alternateSelectedCountry.phoneCode} ${alternateMobileCont.text}');
+                productStore.setCustomerContactNumber(mobileCont.text);
+                productStore.setCustomerAlternateContactNumber(alternateMobileCont.text);
 
                 appStore.setLoading(false);
                 OrderSummaryScreen().launch(context, pageRouteAnimation: PageRouteAnimation.Fade);
@@ -150,90 +129,6 @@ class _AdditionalDetailScreenState extends State<AdditionalDetailScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  // Build the phone number field with country code
-  Widget _buildPhoneField({
-    required TextEditingController controller,
-    required FocusNode focus,
-    required String label,
-    required Country country,
-    required Function(Country) onCountryChanged,
-    bool isValidationRequired = true,
-  }) {
-    return Container(
-      decoration: boxDecorationWithRoundedCorners(
-        borderRadius: radius(8),
-        backgroundColor: context.cardColor,
-      ),
-      child: Row(
-        children: [
-          _buildCountrySelector(country, onCountryChanged),
-          Expanded(
-            child: AppTextField(
-              controller: controller,
-              focus: focus,
-              textFieldType: TextFieldType.PHONE,
-              maxLength: 15,
-              isValidationRequired: isValidationRequired,
-              decoration: InputDecoration(
-                labelText: label,
-                border: InputBorder.none,
-                counterText: "",
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCountrySelector(Country country, Function(Country) onCountryChanged) {
-    return GestureDetector(
-      onTap: () => _showCountryPicker(onCountryChanged),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Text(country.flagEmoji, style: TextStyle(fontSize: 20)),
-            // 4.width,
-            Text('+${country.phoneCode}', style: primaryTextStyle()),
-            8.width,
-            Icon(Icons.arrow_drop_down, color: Colors.grey),
-            _buildDivider(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDivider() {
-    return Container(
-      height: 24,
-      width: 1,
-      color: Colors.grey.withOpacity(0.2),
-      margin: EdgeInsets.symmetric(horizontal: 8),
-    );
-  }
-
-  void _showCountryPicker(Function(Country) onSelect) {
-    showCountryPicker(
-      context: context,
-      showPhoneCode: true,
-      favorite: ['IN'],
-      countryListTheme: CountryListThemeData(
-        borderRadius: BorderRadius.circular(8),
-        inputDecoration: InputDecoration(
-          labelText: 'Search',
-          prefixIcon: Icon(Icons.search),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-      ),
-      onSelect: onSelect,
     );
   }
 }

@@ -216,14 +216,14 @@ class _CartItemComponentState extends State<CartItemComponent> {
                 Marquee(
                   child: Row(
                     children: [
-                      PriceWidget(
+                      if (widget.cartListData.isDiscount) PriceWidget(
                         price: widget.cartListData.productVariation!.taxIncludeProductPrice.validate(),
                         isLineThroughEnabled: widget.cartListData.isDiscount ? true : false,
                         size: widget.cartListData.isDiscount ? 12 : 16,
                         color: widget.cartListData.isDiscount ? textSecondaryColorGlobal : null,
                       ),
-                      4.width,
-                      if (widget.cartListData.isDiscount) PriceWidget(price: widget.cartListData.productVariation!.discountedProductPrice.validate()),
+                      if (widget.cartListData.isDiscount) 4.width,
+                      PriceWidget(price: widget.cartListData.productVariation!.discountedProductPrice.validate()),
                       if (widget.cartListData.isDiscount) 8.width,
                       if (widget.cartListData.isDiscount) Text('${widget.cartListData.discountValue}% ${locale.off}', style: primaryTextStyle(color: greenColor)),
                     ],

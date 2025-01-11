@@ -38,7 +38,6 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
     ProfileFragment(),
   ];
 
-
   @override
   void initState() {
     currentPosition = widget.pageIndex;
@@ -47,13 +46,6 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
     }
     super.initState();
     init();
-
-    LiveStream().on("Hello", (value) {
-      if (value == 1) {
-        SignInScreen().launch(context,isNewTask: true);
-        // setState(() {});
-      }
-    });
   }
 
   void init() async {

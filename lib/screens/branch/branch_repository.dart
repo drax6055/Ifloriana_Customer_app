@@ -66,6 +66,7 @@ Future<BranchDetailResponse> getBranchDetail(int branchId) async {
       int index = branchDetailCachedData.indexWhere((element) => element.data?.id == branchId);
       branchDetailCachedData[index] = res;
     }
+
     appStore.setLoading(false);
 
     return res;
@@ -159,12 +160,11 @@ Future<List<ServiceListData>> getBranchServiceList({int? branchId, int page = 1,
   return list;
 }
 
-
 Future<BranchConfigurationResponse> getBranchConfiguration(int branchId) async {
   try {
     var res = BranchConfigurationResponse.fromJson(await handleResponse(await buildHttpResponse('${APIEndPoints.branchConfiguration}?branch_id=$branchId', method: HttpMethodType.GET)));
     appStore.setLoading(false);
-
+    
     bookingRequestStore.setTaxPercentageInRequest(res.data!.tax!);
 
     branchConfigurationCached = res.data;

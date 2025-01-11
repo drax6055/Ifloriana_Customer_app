@@ -40,6 +40,8 @@ class OrderListData {
   int? id;
   String? orderCode;
   String? logisticName;
+  String? logisticAddress;
+  String? logisticContact;
   String? paymentStatus;
   String? phoneNo;
   String? postalCode;
@@ -56,6 +58,10 @@ class OrderListData {
   String? paymentMethod;
   num? subTotalAmount;
   num? totalTaxAmount;
+  num? standardDeliverycharge;
+  num? totalPayableAmount;
+  num? totalPriceAmount;
+
 
   // local
   DateTime get orderingDateTime => DateTime.parse(orderDate.validate());
@@ -74,6 +80,8 @@ class OrderListData {
     this.id,
     this.orderCode,
     this.logisticName,
+    this.logisticAddress,
+    this.logisticContact,
     this.paymentStatus,
     this.phoneNo,
     this.postalCode,
@@ -90,6 +98,9 @@ class OrderListData {
     this.subTotalAmount,
     this.paymentMethod,
     this.totalTaxAmount,
+    this.standardDeliverycharge,
+    this.totalPayableAmount,
+    this.totalPriceAmount
   });
 
   factory OrderListData.fromJson(Map<String, dynamic> json) {
@@ -103,6 +114,8 @@ class OrderListData {
       id: json['id'],
       orderCode: json['order_code'],
       logisticName: json['logistic_name'],
+      logisticAddress: json['logistic_address'],
+      logisticContact: json['logistic_contact'],
       paymentStatus: json['payment_status'],
       phoneNo: json['phone_no'] != null ? json['phone_no'] : null,
       postalCode: json['postal_code'],
@@ -119,6 +132,9 @@ class OrderListData {
       paymentMethod: json['payment_method'],
       subTotalAmount: json['sub_total_amount'],
       totalTaxAmount: json['total_tax_amount'],
+      standardDeliverycharge: json['standard_delivery_charge'],
+      totalPayableAmount: json['total_payable_amount'],
+      totalPriceAmount: json['total_price_amount'],
     );
   }
 
@@ -132,6 +148,8 @@ class OrderListData {
     data['id'] = this.id;
     data['order_code'] = this.orderCode;
     data['logistic_name'] = this.logisticName;
+    data['logistic_address'] = this.logisticAddress;
+    data['logistic_contact'] = this.logisticContact;
     data['payment_status'] = this.paymentStatus;
     data['postal_code'] = this.postalCode;
     data['state'] = this.state;
@@ -146,6 +164,9 @@ class OrderListData {
     data['payment_method'] = this.paymentMethod;
     data['sub_total_amount'] = this.subTotalAmount;
     data['total_tax_amount'] = this.totalTaxAmount;
+    data['standard_delivery_charge'] = this.standardDeliverycharge;
+    data['total_payable_amount'] = this.totalPayableAmount;
+    data['total_price_amount'] = this.totalPriceAmount;
     if (this.alternativePhoneNo != null) {
       data['alternative_phone_no'] = this.alternativePhoneNo;
     }

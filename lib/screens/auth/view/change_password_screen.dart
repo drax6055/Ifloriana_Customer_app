@@ -124,7 +124,7 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   if (value!.isEmpty) {
                     return locale.thisFieldIsRequired;
                   } else if (value == oldPasswordCont.text) {
-                    return 'New password should not be the same as the old password';
+                    return locale.newPasswordWarning;
                   }
                   return null;
                 },

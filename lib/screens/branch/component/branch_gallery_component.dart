@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:core';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ifloriana/screens/zoom_image_screen.dart';

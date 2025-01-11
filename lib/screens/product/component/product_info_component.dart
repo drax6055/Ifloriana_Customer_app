@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:ifloriana/utils/constants.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../components/price_widget.dart';
@@ -43,8 +42,7 @@ class ProductInfoComponent extends StatelessWidget {
                   color: productData.isDiscount ? textSecondaryColorGlobal : null,
                 ),
                 if (productData.isDiscount) 8.width,
-                if (productData.isDiscount)
-                  Text(productData.discountType == TaxType.FIXED ? "${leftCurrencyFormat()}${productData.discountValue}${rightCurrencyFormat()} off" : '${productData.discountValue}% off', style: primaryTextStyle(color: greenColor)),
+                if (productData.isDiscount) Text('${productData.discountValue}% off', style: primaryTextStyle(color: greenColor)),
               ],
             );
           }),

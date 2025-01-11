@@ -2,7 +2,7 @@ name: ifloriana
 description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 3.3.1+20
+version: 3.2.0+18
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -24,7 +24,8 @@ dependencies:
   share_plus: ^10.1.0
   speech_to_text: ^7.0.0
   webview_flutter: ^4.10.0
-
+  open_file: ^3.5.10
+  permission_handler: ^11.3.1
   # State Management
   mobx: ^2.3.3+2
   flutter_mobx: ^2.2.1+1
@@ -78,7 +79,7 @@ dependencies:
   midpay:
     git:
       url: https://github.com/iqonic-design/midpay.git
-      ref: main  
+      ref: main
   phonepe_payment_sdk: ^2.0.3
 
   flutter_paystack:
@@ -89,15 +90,15 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-#  uuid: any
-#  crypto: any
+  uuid: any
+  crypto: any
 dependency_overrides:
   http: ^1.2.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: 2.4.13
+  build_runner: ^2.4.13
   mobx_codegen: ^2.6.1
   #flutter packages pub run build_runner build --delete-conflicting-outputs --enable-experiment=records
 
