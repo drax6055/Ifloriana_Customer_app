@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "803944710630",
+    "project_id": "ifloriana-38287",
+    "storage_bucket": "ifloriana-38287.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803944710630:android:94f43d9a6e434256eed627",
+        "android_client_info": {
+          "package_name": "com.iflorainfopvtltd.ifloriana"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "803944710630-m4te79jiv0jhde9f74r0p31u9149rndk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBD1WFZSSRcicjuAO-7vtG6kKH0YZJjkzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "803944710630-m4te79jiv0jhde9f74r0p31u9149rndk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

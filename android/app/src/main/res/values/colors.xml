@@ -1,0 +1,5 @@
+<resources>
+    <!-- Example: Sets all firebase notification's accent color to primarycolor by default.  -->
+    <!-- Color format is in ARGB. -->
+    <color name="firebase_notification_accent_color">#A82D86</color>
+</resources>

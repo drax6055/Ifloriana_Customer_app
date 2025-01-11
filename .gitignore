@@ -1,0 +1,34 @@
+# Flutter/Dart/Pub-related
+.dart_tool/
+.build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+pubspec.lock
+
+# IDE-related
+# IntelliJ related
+.idea/
+
+# Android Studio related
+*.iml
+.idea/
+
+# VS Code related
+.vscode/
+
+# macOS system files
+.DS_Store
+
+# Build files
+build/
+
+# Flutter build output
+*.apk
+*.ipa
+*.dill
+*.aab
+
+# Flutter temp files
+.flutter-configuration
