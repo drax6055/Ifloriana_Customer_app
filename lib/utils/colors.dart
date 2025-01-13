@@ -18,9 +18,10 @@ const appTextSecondaryColor = Color(0xff6C757D);
 const cardColor = Color(0xFFFFFFFF);
 const borderColor = Color(0xFFEBEBEB);
 const appButtonColorDark = Color(0xFF282828);
-const lightPrimaryColor = Color(0xFFB9579E);
+const lightPrimaryColor = Color(0xFFc5a89c);
 const lightGreenColor=Color(0xFFD1F3E2);
 const lightSecondaryColor = Color(0xFF2C366E);
 
 const quaternaryButtonSecoundColor = Color(0xFFFFCAC6);
 const lightPrimarySecoundColor = Color.fromARGB(255, 248, 205, 236);
+
